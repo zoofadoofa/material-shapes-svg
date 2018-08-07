@@ -1,14 +1,7 @@
 import * as SVG from 'svg.js';
 import { elevationMap } from './elevation.const';
 import * as BezierEasing from 'bezier-easing';
-import { Duration, Ease } from '../animation/animation.const';
-
-// export interface BoxShadow {
-//     x: number;
-//     y: number;
-//     blur: number;
-//     spread: number;
-// }
+import { Duration, Ease } from '../core/animation/animation.const';
 
 const convertBoxShadowBlurToSVGGaussianBlur = function(pixel: number): number {
     // See AmeliaBr's notes about blur in the comments section of link below
@@ -51,7 +44,11 @@ const dropShadow = function(
     return filter;
 }
 
-const animateElevation = function(offsetEffect: any, blurEffect: any, boxShadow: SVG.BoxShadow) {
+const animateElevation = function(
+    offsetEffect: any,
+    blurEffect: any,
+    boxShadow: SVG.MDSBoxShadow
+) {
     offsetEffect.stop(false, true);
     blurEffect.stop(false, true);
     const deviatedBlur = convertBoxShadowBlurToSVGGaussianBlur(boxShadow.blur);
@@ -75,68 +72,8 @@ const animateElevation = function(offsetEffect: any, blurEffect: any, boxShadow:
         )).attr('stdDeviation', `${deviatedBlur} ${deviatedBlur}`);
 }
 
-// export const elevate = function(add: any, z: number) {
-//     const u: SVG.BoxShadow = elevationMap.umbra[z];
-//     const p: SVG.BoxShadow = elevationMap.penumbra[z];
-//     const a: SVG.BoxShadow = elevationMap.ambient[z];
-
-//     const uShadow = dropShadow(add, u.x, u.y + u.spread, u.blur, 1, elevationMap.umbra.opacity);
-//     const pShadow = dropShadow(add, p.x, p.y + p.spread, p.blur, 1, elevationMap.penumbra.opacity);
-//     const aShadow = dropShadow(add, a.x, a.y + a.spread, a.blur, 1, elevationMap.ambient.opacity);
-
-//     add.merge(uShadow, pShadow, aShadow, add.source);
-
-//     return add;
-// }
-
-// const elevate = (filter: any, z: number) => {
-//     const effects = filter.children();
-//     animateElevation(effects[0], effects[1], elevationMap.umbra[z]);
-//     animateElevation(effects[4], effects[5], elevationMap.penumbra[z]);
-//     animateElevation(effects[8], effects[9], elevationMap.ambient[z]);
-// }
-
-// export type zDepth =
-// 0 | 1 | 2 | 3 |
-// 4 | 5 | 6 | 7 |
-// 8 | 9 | 10 | 11 |
-// 12 | 13 | 14 | 15 |
-// 16 | 17 | 18 | 19 |
-// 20 | 21 | 22 | 23 | 24;
-
-const MatShadow = SVG.invent({
-    create: 'filter',
-    inherit: SVG.Filter,
-    extend: {
-        elevate: (filter: any, z: number) => {
-            const effects = filter.children();
-            animateElevation(effects[0], effects[1], elevationMap.umbra[z]);
-            animateElevation(effects[4], effects[5], elevationMap.penumbra[z]);
-            animateElevation(effects[8], effects[9], elevationMap.ambient[z]);
-        }
-    },
-    // construct: {
-    //     matShadow: function(z: SVG.zDepth): SVG.MatShadow {
-    //         return this.put(new MatShadow).filter((add) => {
-    //             const u: SVG.BoxShadow = elevationMap.umbra[z];
-    //             const p: SVG.BoxShadow = elevationMap.penumbra[z];
-    //             const a: SVG.BoxShadow = elevationMap.ambient[z];
-
-    //             const uShadow = dropShadow(add, u.x, u.y + u.spread, u.blur, 1, elevationMap.umbra.opacity);
-    //             const pShadow = dropShadow(add, p.x, p.y + p.spread, p.blur, 1, elevationMap.penumbra.opacity);
-    //             const aShadow = dropShadow(add, a.x, a.y + a.spread, a.blur, 1, elevationMap.ambient.opacity);
-
-    //             add.merge(uShadow, pShadow, aShadow, add.source);
-
-    //             return add;
-    //         })
-    //     }
-    // }
-
-})
-
 SVG.extend(SVG.Filter, {
-    elevate: function(z: number) {
+    elevate: function(z: SVG.zDepth) {
         const effects = this.children();
         animateElevation(effects[0], effects[1], elevationMap.umbra[z]);
         animateElevation(effects[4], effects[5], elevationMap.penumbra[z]);
@@ -145,12 +82,12 @@ SVG.extend(SVG.Filter, {
     }
 })
 
-SVG.extend(SVG.Element, {
-    matShadow: function(z: SVG.zDepth) {
-        return this.filter(function(add: any) {
-            const u: SVG.BoxShadow = elevationMap.umbra[z];
-            const p: SVG.BoxShadow = elevationMap.penumbra[z];
-            const a: SVG.BoxShadow = elevationMap.ambient[z];
+SVG.extend(SVG.Shape, {
+    elevation: function(z: SVG.zDepth): SVG.Filter {
+        return this.filter(function(add: SVG.Filter) {
+            const u: SVG.MDSBoxShadow = elevationMap.umbra[z];
+            const p: SVG.MDSBoxShadow = elevationMap.penumbra[z];
+            const a: SVG.MDSBoxShadow = elevationMap.ambient[z];
 
             const uShadow = dropShadow(add, u.x, u.y + u.spread, u.blur, 1, elevationMap.umbra.opacity);
             const pShadow = dropShadow(add, p.x, p.y + p.spread, p.blur, 1, elevationMap.penumbra.opacity);

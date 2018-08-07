@@ -1,11 +1,10 @@
 import * as SVG from 'svg.js';
-import { chamferRect } from '../shapes/shapes';
 
-const ChamferRect = SVG.invent({
+const MDSChamferRect = SVG.invent({
     create: 'path',
     inherit: SVG.Path,
     extend: {
-        chamfer: function(width: number, height: number, cut: number): SVG.ChamferRect {
+        chamfer: function(width: number, height: number, cut: number): SVG.MDSChamferRect {
             type RectCorner = 'top-left' | 'top-right' | 'bottom-right' | 'bottom-left';
 
             /**
@@ -65,8 +64,8 @@ const ChamferRect = SVG.invent({
         }
     },
     construct: {
-        chamferRect: function(width: number, height: number, cut: number): SVG.ChamferRect {
-            return this.put(new ChamferRect).chamfer(width, height, cut);
+        chamferRect: function(width: number, height: number, cut: number): SVG.MDSChamferRect {
+            return this.put(new MDSChamferRect).chamfer(width, height, cut);
         }
     }
 })

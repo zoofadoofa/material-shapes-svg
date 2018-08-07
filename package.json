@@ -14,8 +14,9 @@
   "scripts": {
     "start": "webpack-dev-server",
     "tsc": "tsc",
-    "tsc:noEmit": "tsc --noEmit"
+    "tsc:noEmit": "tsc --noEmit --traceResolution"
   },
+  "typings": "./svg.js.d.ts",
   "devDependencies": {
     "autoprefixer": "^8.6.2",
     "babel-core": "^6.26.3",

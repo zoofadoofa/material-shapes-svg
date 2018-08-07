@@ -1,7 +1,7 @@
 import * as svgjs from 'svg.js';
 import { FabPosition, AppBarBottomSpecs } from './app-bar.const';
 import * as BezierEasing from 'bezier-easing';
-import { Duration, Ease } from '../animation/animation.const';
+import { Duration, Ease } from '../core/animation/animation.const';
 
 const mobileSpecs = AppBarBottomSpecs.mobile;
 const fab = mobileSpecs.portrait.fab;
@@ -130,28 +130,28 @@ export const CutoutCollapse = (path: svgjs.Path, fabPosition: FabPosition, width
     const pathCollapse = getFabPathCollapsed(fabPosition, width);
 
     // path.stop(false, true)
-    path.animate(
+    <svgjs.Animation>(<any>path.animate(
         Duration.large.out,
-        BezierEasing(
+        <any>BezierEasing(
             Ease.standard.x1,
             Ease.standard.y1,
             Ease.standard.x2,
             Ease.standard.y2
         ))
-    .plot(pathCollapse)
+    ).plot(pathCollapse);
 }
 
 export const CutoutExpand = (path: svgjs.Path, fabPosition: FabPosition, width: number ) => {
     const pathExpand = getFabPathExpanded(fabPosition, width);
 
     // path.stop(false, true)
-    path.animate(
+    <svgjs.Animation>(<any>path.animate(
         Duration.large.in,
-        BezierEasing(
+        <any>BezierEasing(
             Ease.standard.x1,
             Ease.standard.y1,
             Ease.standard.x2,
             Ease.standard.y2
         ))
-    .plot(pathExpand)
+    ).plot(pathExpand)
 }
