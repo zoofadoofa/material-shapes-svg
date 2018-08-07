@@ -1,0 +1,208 @@
+// @import "@material/button/mdc-button";
+// @import "@material/icon-button/mdc-icon-button";
+// @import "@material/fab/mdc-fab";
+// @import "@material/elevation/mdc-elevation";
+@import "../src/app-bar/app-bar";
+
+@import "../src/app-bar/app-bar.theme";
+
+body {
+    margin: 0;
+    background-color: #444;
+    overflow-x: hidden;
+}
+
+.material-surface {
+    position: relative;
+    background-color: #fff;
+    padding: 16px;
+    overflow: visible;
+    ~ .material-surface {
+        border-left: 1px solid rgba(0,0,0,0.12);
+    }
+    &.material-stretch {
+        flex: 1 1 0.0001px;
+    }
+}
+
+.material-fab-center,
+.material-fab-end {
+    position: absolute;
+    transform: scale(1);
+    top: -28px;
+    transition-timing-function: cubic-bezier(0.4,0.0,0.2,1);
+    transition-duration: 300ms;
+}
+
+.toolbar:hover{
+    .material-fab-center,
+    .material-fab-end {
+        // transform: scale(0);
+    }
+}
+
+.material-fab-end {
+    right: 24px;
+}
+
+.material-fab-center {
+    left: calc(50% - 28px);
+}
+
+.material-fab {
+    // @include mdc-fab-accessible(#000);
+}
+
+.spacer {
+    flex: 1 1 0.0001px;
+    background-color: #eee;
+}
+
+$shrine-primary-100: #fedbd0;
+$shrine-primary-900: #442c2e;
+$shrine-secondary: #feeae6;
+.shrine-surface {
+
+}
+.shrine-button {
+    font-family: "Rubik";
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: $shrine-primary-900;
+
+    position: relative;
+    height: 36px;
+    background-color: transparent;
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    flex-direction: column;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-appearance: none;
+    // overflow: hidden;
+    vertical-align: middle;
+    text-decoration: none;
+    text-decoration-line: none;
+    text-decoration-style: solid;
+    padding: 0;
+
+
+    &::-moz-focus-inner {
+        padding: 0;
+        border: 0;
+    }
+
+    // postcss-bem-linter: ignore
+    &:active {
+        outline: none;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:disabled {
+        cursor: default;
+        pointer-events: none;
+    }
+
+    .shrine-button-text {
+        padding: 0 58px;
+        // top: -36px;
+        line-height: 36px;
+        height: 36px;
+        color: #442c2e;
+        // background-color: #fedbd0;
+        position: relative;
+    }
+
+    .shrine-button-svg-background,
+    .shrine-button-svg-overlay {
+        position: absolute;
+        overflow: visible;
+        top: 0;
+        left: 0;
+    }
+
+    .shrine-button-svg-ripple {
+        position: absolute;
+        overflow: visible;
+        top: 0;
+        left: 0;
+    }
+
+    .shrine-button-background {
+        fill: #fedbd0;
+    }
+
+    .shrine-button-overlay {
+        fill: rgb(0, 0, 0);
+        opacity: 0;
+        transition: opacity 75ms linear;
+    }
+
+    &:hover .shrine-button-overlay {
+        opacity: 0.04;
+    }
+
+    &:focus .shrine-button-overlay {
+        opacity: 0.12;
+        transition: opacity 75ms linear;
+    }
+
+    .shrine-button-ripple {
+        fill: #442c2e;
+    }
+}
+
+
+.demo-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.demo-center {
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.demo-row {
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
+    margin: 40px 0;
+    width: 100%;
+}
+
+.demo-column {
+    display: flex;
+    flex-direction: column;
+    margin: 40px 0;
+    width: 100%;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.demo-50 {
+    width: 50%;
+}
+
+@include tmdc-app-bar-theme(#6200ee);
+

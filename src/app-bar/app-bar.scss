@@ -1,0 +1,130 @@
+@import "../flex/flex";
+
+$tmdc-app-bar-dense-height: 48px;
+$tmdc-app-bar-normal-height: 56px;
+$tmdc-app-bar-loose-height: 64px;
+
+@mixin tmdc-app-bar-dense() {
+    .tmdc-app-bar-actions {
+        height: $tmdc-app-bar-dense-height;
+        line-height: $tmdc-app-bar-dense-height;
+    }
+    &.tmdc-app-bar-top .tmdc-app-bar-actions {
+        margin: 0 16px;
+    }
+    &.tmdc-app-bar-bottom .tmdc-app-bar-actions{
+        right: 16px;
+        left: 16px;
+    }
+    .tmdc-app-bar-column-start {
+        margin-left: -12px;
+    }
+    .tmdc-app-bar-column-end {
+        margin-right: -12px;
+    }
+}
+
+@mixin tmdc-app-bar-normal() {
+    .tmdc-app-bar-actions {
+        height: $tmdc-app-bar-normal-height;
+        line-height: $tmdc-app-bar-normal-height;
+    }
+    &.tmdc-app-bar-top .tmdc-app-bar-actions {
+        margin: 0 16px;
+    }
+    &.tmdc-app-bar-bottom .tmdc-app-bar-actions{
+        right: 16px;
+        left: 16px;
+    }
+    .tmdc-app-bar-column-start {
+        margin-left: -12px;
+    }
+    .tmdc-app-bar-column-end {
+        margin-right: -12px;
+    }
+}
+
+@mixin tmdc-app-bar-loose() {
+    .tmdc-app-bar-actions {
+        height: $tmdc-app-bar-loose-height;
+        line-height: $tmdc-app-bar-loose-height;
+    }
+    &.tmdc-app-bar-top .tmdc-app-bar-actions {
+        margin: 0 24px;
+    }
+    &.tmdc-app-bar-bottom .tmdc-app-bar-actions{
+        right: 24px;
+        left: 24px;
+    }
+    .tmdc-app-bar-column-start {
+        margin-left: -12px;
+    }
+    .tmdc-app-bar-column-end {
+        margin-right: -12px;
+    }
+}
+
+// ------------------------------------
+// Layout for all situations
+// ------------------------------------
+.tmdc-app-bar {
+    position: relative;
+    @include flex-layout(column, nowrap);
+    width: 100%;
+}
+
+.tmdc-app-bar-background {
+    @include flex-item(1, 1, 0.0001px);
+}
+.tmdc-app-bar-bottom .tmdc-app-bar-actions {
+    position: absolute;
+}
+
+.tmdc-app-bar-actions {
+    @include flex-layout(row, nowrap);
+    @include flex-align(flex-start, center);
+}
+
+.tmdc-app-bar-column-start {
+    @include flex-item(1, 1, 0.0001px);
+    @include flex-layout(row, nowrap);
+    @include flex-align(flex-start, center);
+}
+.tmdc-app-bar-column-end {
+    @include flex-item(1, 1, 0.0001px);
+    @include flex-layout(row, nowrap);
+    @include flex-align(flex-end, center);
+}
+
+// ------------------------------------
+// Dense Specs
+// ------------------------------------
+.tmdc-app-bar-mobile.tmdc-app-bar-landscape,
+.tmdc-app-bar-desktop {
+    @include tmdc-app-bar-dense();
+    .tmdc-app-bar-background {
+        height: $tmdc-app-bar-dense-height;
+    }
+}
+
+// ------------------------------------
+// Normal Specs
+// ------------------------------------
+.tmdc-app-bar-mobile.tmdc-app-bar-portrait,
+.tmdc-app-bar-tablet.tmdc-app-bar-landscape {
+    @include tmdc-app-bar-normal();
+    .tmdc-app-bar-background {
+        height: $tmdc-app-bar-normal-height;
+    }
+}
+
+// ------------------------------------
+// Loose Specs
+// ------------------------------------
+.tmdc-app-bar-tablet.tmdc-app-bar-portrait {
+    @include tmdc-app-bar-loose();
+    .tmdc-app-bar-background {
+        height: $tmdc-app-bar-loose-height;
+    }
+}
+

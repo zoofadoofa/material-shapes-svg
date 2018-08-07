@@ -1,0 +1,63 @@
+<filter
+    id="SvgjsFilter1015"
+    width="200%"
+    height="200%">
+    <feOffset
+        id="SvgjsFeOffset1016"
+        dx="0"
+        dy="1"
+        result="SvgjsFeOffset1016Out"
+        in="SourceAlpha"></feOffset>
+    <feGaussianBlur
+        id="SvgjsFeGaussianBlur1017"
+        stdDeviation="0.4 0.4"
+        result="SvgjsFeGaussianBlur1017Out"
+        in="SvgjsFeOffset1016Out"></feGaussianBlur>
+    <feComponentTransfer
+        id="SvgjsFeComponentTransfer1018"
+        result="SvgjsFeComponentTransfer1018Out"
+        in="SvgjsFeGaussianBlur1017Out">
+        <feFuncR id="SvgjsFeFuncR1019" type="identity"></feFuncR>
+        <feFuncG id="SvgjsFeFuncG1020" type="identity"></feFuncG>
+        <feFuncB id="SvgjsFeFuncB1021" type="identity"></feFuncB>
+        <feFuncA id="SvgjsFeFuncA1022" type="linear" slope="1"></feFuncA>
+    </feComponentTransfer>
+    <feColorMatrix
+        id="SvgjsFeColorMatrix1023"
+        type="matrix"
+        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"
+        result="SvgjsFeColorMatrix1023Out"
+        in="SvgjsFeComponentTransfer1018Out"></feColorMatrix>
+
+    <feOffset
+        id="SvgjsFeOffset1024"
+        dx="0"
+        dy="2"
+        result="SvgjsFeOffset1024Out"
+        in="SourceAlpha"></feOffset>
+    <feGaussianBlur id="SvgjsFeGaussianBlur1025" stdDeviation="0.8 0.8" result="SvgjsFeGaussianBlur1025Out" in="SvgjsFeOffset1024Out"></feGaussianBlur>
+    <feComponentTransfer id="SvgjsFeComponentTransfer1026" result="SvgjsFeComponentTransfer1026Out" in="SvgjsFeGaussianBlur1025Out">
+        <feFuncR id="SvgjsFeFuncR1027" type="identity"></feFuncR>
+        <feFuncG id="SvgjsFeFuncG1028" type="identity"></feFuncG>
+        <feFuncB id="SvgjsFeFuncB1029" type="identity"></feFuncB>
+        <feFuncA id="SvgjsFeFuncA1030" type="linear" slope="1"></feFuncA>
+    </feComponentTransfer>
+    <feColorMatrix id="SvgjsFeColorMatrix1031" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.14 0" result="SvgjsFeColorMatrix1031Out"
+        in="SvgjsFeComponentTransfer1026Out"></feColorMatrix>
+    <feOffset id="SvgjsFeOffset1032" dx="0" dy="1" result="SvgjsFeOffset1032Out" in="SourceAlpha"></feOffset>
+    <feGaussianBlur id="SvgjsFeGaussianBlur1033" stdDeviation="2 2" result="SvgjsFeGaussianBlur1033Out" in="SvgjsFeOffset1032Out"></feGaussianBlur>
+    <feComponentTransfer id="SvgjsFeComponentTransfer1034" result="SvgjsFeComponentTransfer1034Out" in="SvgjsFeGaussianBlur1033Out">
+        <feFuncR id="SvgjsFeFuncR1035" type="identity"></feFuncR>
+        <feFuncG id="SvgjsFeFuncG1036" type="identity"></feFuncG>
+        <feFuncB id="SvgjsFeFuncB1037" type="identity"></feFuncB>
+        <feFuncA id="SvgjsFeFuncA1038" type="linear" slope="1"></feFuncA>
+    </feComponentTransfer>
+    <feColorMatrix id="SvgjsFeColorMatrix1039" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" result="SvgjsFeColorMatrix1039Out"
+        in="SvgjsFeComponentTransfer1034Out"></feColorMatrix>
+    <feMerge id="SvgjsFeMerge1040" result="SvgjsFeMerge1040Out" in="SourceGraphic">
+        <feMergeNode id="SvgjsFeMergeNode1041" in="SvgjsFeColorMatrix1023Out"></feMergeNode>
+        <feMergeNode id="SvgjsFeMergeNode1042" in="SvgjsFeColorMatrix1031Out"></feMergeNode>
+        <feMergeNode id="SvgjsFeMergeNode1043" in="SvgjsFeColorMatrix1039Out"></feMergeNode>
+        <feMergeNode id="SvgjsFeMergeNode1044" in="SourceGraphic"></feMergeNode>
+    </feMerge>
+</filter>

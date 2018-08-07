@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "moduleResolution": "Node",
+    "traceResolution": true,
+    "allowJs": true
+  },
+  "include": [
+      "src/",
+      "app.ts"
+  ]
+}
