@@ -1,22 +1,5 @@
-// @import "@material/theme/mixins";
-// @import "@material/theme/functions";
 
 @mixin tmdc-app-bar-theme($color) {
-    // $foreground-tone: mdc-theme-contrast-tone($color);
-
-    .tmdc-app-bar-top .tmdc-app-bar-actions {
-        // @include mdc-theme-prop(background-color, $color);
-    }
-
-
-    // @if($foreground-tone == "light") {
-    //     .tmdc-app-bar-actions {
-    //         color: #fff;
-    //     }
-    // } @else {
-    //         color: #000;
-    // }
-
     .tmdc-app-bar-bottom-path {
         fill: $color;
     }
