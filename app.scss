@@ -58,6 +58,41 @@ body {
     background-color: #eee;
 }
 
+.example-diamond {
+    width: 64px;
+    height: 64px;
+
+    .mds-svg {
+        overflow: visible;
+    }
+}
+
+.example-ripple {
+    width: 160px;
+    height: 36px;
+    position: relative;
+    .mds-background,
+    .mds-wash,
+    .mds-ripple {
+        position: absolute;
+        overflow: visible;
+        top: 0;
+        left: 0;
+    }
+
+    .example-text {
+        font-family: "Rubik";
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 14px;
+        line-height: 36px;
+        height: 36px;
+        color: #222;
+        position: relative;
+        text-align: center;
+    }
+}
+
 $shrine-primary-100: #fedbd0;
 $shrine-primary-900: #442c2e;
 $shrine-secondary: #feeae6;
@@ -125,41 +160,39 @@ $shrine-secondary: #feeae6;
         position: relative;
     }
 
-    .shrine-button-svg-background,
-    .shrine-button-svg-overlay {
+    .mds-svg {
+        overflow: visible;
+    }
+
+    .mds-background,
+    .mds-wash,
+    .mds-ripple {
         position: absolute;
         overflow: visible;
         top: 0;
         left: 0;
     }
 
-    .shrine-button-svg-ripple {
-        position: absolute;
-        overflow: visible;
-        top: 0;
-        left: 0;
-    }
-
-    .shrine-button-background {
+    .mds-svg-background {
         fill: #fedbd0;
     }
 
-    .shrine-button-overlay {
+    .mds-svg-wash {
         fill: rgb(0, 0, 0);
         opacity: 0;
         transition: opacity 75ms linear;
     }
 
-    &:hover .shrine-button-overlay {
+    &:hover .mds-svg-wash {
         opacity: 0.04;
     }
 
-    &:focus .shrine-button-overlay {
+    &:focus .mds-svg-wash {
         opacity: 0.12;
         transition: opacity 75ms linear;
     }
 
-    .shrine-button-ripple {
+    .mds-svg-ripple {
         fill: #442c2e;
     }
 }

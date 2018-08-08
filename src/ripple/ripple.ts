@@ -7,6 +7,7 @@ const MDSRipple = SVG.invent({
     extend: {
         _initialSize: 0,
         _maxDiameter: 0,
+        contrast: 'dark',
         reset: function() {
             const doc= this.doc();
             const background = doc.select('.mss-ripple-background').members[0];
@@ -22,7 +23,10 @@ const MDSRipple = SVG.invent({
             this.stop ? this.stop(false, true) : () => {};
 
             background.animate(rippleDuration.fadeIn, '-')
-                .attr('opacity', rippleOpacity.dark.press);
+                .attr('opacity', this.contrast === 'light'
+                ? rippleOpacity.light.press
+                : rippleOpacity.dark.press
+            );
 
             this.radius(this._initialSize, this._initialSize)
                 .cx(x)
@@ -41,7 +45,7 @@ const MDSRipple = SVG.invent({
 })
 
 SVG.extend(SVG.Shape, {
-    ripple: function() {
+    ripple: function(contrast?: SVG.MDSContrast) {
         const doc = this.doc();
         const background = this.addClass('mss-ripple-background').opacity(0);
         const mask = doc.mask().addClass('mss-ripple-mask');
@@ -58,6 +62,7 @@ SVG.extend(SVG.Shape, {
 
         ripple._initialSize = initialSize;
         ripple._maxDiameter = maxDiameter;
+        ripple.contrast = contrast ? contrast : 'dark';
 
         return ripple;
     }

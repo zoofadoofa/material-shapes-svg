@@ -2,16 +2,23 @@ import { Circle, Doc, Element, Path, Shape, Parent } from 'svg.js';
 
 declare module "svg.js" {
 
+    interface Library {
+        on(document: Document, eventName: string, callback: Function)
+    }
+
+    export type MDSContrast = 'light' | 'dark';
+
     // ripple.ts
     export interface MDSRipple extends Circle {
         _initialSize: number;
         _maxDiameter: number;
+        contrast: MDSContrast;
         reset(): this;
         expand(x: number, y: number): this;
     }
 
     interface Shape {
-        ripple(): MDSRipple;
+        ripple(contrast?: MDSContrast): MDSRipple;
     }
 
     interface Library {
@@ -76,7 +83,7 @@ declare module "svg.js" {
         turbulence(baseFrequency, numOctaves, seed, stitchTiles, type): any;
         toString(): string;
 
-        elevate(z: zDepth);
+        elevate(z: zDepth): this;
     }
 
     interface Shape {
