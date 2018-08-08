@@ -2,19 +2,35 @@
   "name": "@material/shapes-svg",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "bundles/material-shapes-svg.js",
+  "module": "./publish/index.js",
   "private": true,
   "keywords": [
     "material design",
     "shapes",
     "svg"
   ],
+  "files": [
+    "bundles/material-shapes-svg.*",
+    "publish/**/*.*"
+  ],
   "author": "Derek Moss <derek.randall.moss@gmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server",
+    "clean": "npm-run-all clean:* --parallel",
+    "clean:build": "rimraf build",
+    "clean:publish": "rimraf publish",
+    "clean:bundles": "rimraf bundles",
+    "prebuild": "npm run clean",
+    "build": "webpack --config webpack.config.lib.ts",
+    "cpy": "cpy",
     "tsc": "tsc",
     "tsc:noEmit": "tsc --noEmit --traceResolution"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zoofadoofa/material-shapes-svg.git"
   },
   "typings": "./svg.js.d.ts",
   "devDependencies": {
@@ -34,7 +50,7 @@
     "webpack": "^3.12.0",
     "webpack-dev-server": "^2.11.2"
   },
-  "dependencies": {
+  "peerDependencies": {
     "bezier-easing": "^2.1.0",
     "svg.js": "^2.6.5",
     "svg.filter.js": "^2.0.2"
