@@ -1,0 +1,28 @@
+{
+    "name": "@material/shapes-svg",
+    "version": "1.0.0",
+    "license": "MIT",
+    "main": "./bundles/material-shapes-svg.js",
+    "module": "./bundles/material-shapes-svg.js",
+    "author": "Derek Moss <derek.randall.moss@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/zoofadoofa/material-shapes-svg.git"
+    },
+    "keywords": [
+        "material design",
+        "shapes",
+        "svg"
+    ],
+    "files": [
+        "src",
+        "bundles",
+        "index.d.ts"
+    ],
+    "typings": "index.d.ts",
+    "peerDependencies": {
+        "bezier-easing": "^2.1.0",
+        "svg.js": "^2.6.5",
+        "svg.filter.js": "^2.0.2"
+    }
+}

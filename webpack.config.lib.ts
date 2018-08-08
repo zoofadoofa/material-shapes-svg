@@ -4,11 +4,11 @@ const path = require('path');
 module.exports = () => {
     const config = {
         entry: {
-            'material-shapes-svg': './build/src/index.ts',
-            'material-shapes-svg.min': './build/src/index.ts',
+            'material-shapes-svg': './src/index.ts',
+            'material-shapes-svg.min': './src/index.ts',
         },
         output: {
-            path: path.resolve(__dirname, './bundles'),
+            path: path.resolve(__dirname, './build/_publish/bundles'),
             filename: '[name].js',
             libraryTarget: 'umd',
             library: 'material-shapes-svg'

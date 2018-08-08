@@ -1,4 +1,4 @@
-import * as SVG from 'svg.js';
+import * as svgjs from 'svg.js';
 
 /**
  * Given the hypotenuse of a isosceles triangle that is right angled, find the length of a side.
@@ -49,11 +49,11 @@ const cutCorner = function(
     }
 }
 
-const MDSChamferRect = SVG.invent({
+const MDSChamferRect = svgjs.invent({
     create: 'path',
-    inherit: SVG.Path,
+    inherit: svgjs.Path,
     extend: {
-        chamfer: function(width: number, height: number, cut: number): SVG.MDSChamferRect {
+        chamfer: function(width: number, height: number, cut: number): svgjs.MDSChamferRect {
             const d = `
                 ${cutCorner(0, 0, cut, 'top-left', true)}
                 ${cutCorner(width, 0, cut, 'top-right', false)}
@@ -65,7 +65,7 @@ const MDSChamferRect = SVG.invent({
         }
     },
     construct: {
-        chamferRect: function(width: number, height: number, cut: number): SVG.MDSChamferRect {
+        chamferRect: function(width: number, height: number, cut: number): svgjs.MDSChamferRect {
             return this.put(new MDSChamferRect).chamfer(width, height, cut);
         }
     }

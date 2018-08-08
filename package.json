@@ -1,5 +1,5 @@
 {
-  "name": "@material/shapes-svg",
+  "name": "material-shapes-svg",
   "version": "0.0.0",
   "description": "",
   "main": "bundles/material-shapes-svg.js",
@@ -18,12 +18,17 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server",
-    "clean": "npm-run-all clean:* --parallel",
-    "clean:build": "rimraf build",
-    "clean:publish": "rimraf publish",
-    "clean:bundles": "rimraf bundles",
-    "prebuild": "npm run clean",
+    "clean:build": "npm run rimraf -- build",
+    "prebuild": "npm run clean:build",
+    "postbuild": "npm-run-all copy:package:json copy:types copy:readme",
+    "copy:package:json": "cpy ./src/package.json ./build/_publish",
+    "copy:types": "cpy ./src/@types/svg.js/index.d.ts ./build/_publish/",
+    "copy:readme": "cpy ./README.md ./build/_publish",
     "build": "webpack --config webpack.config.lib.ts",
+    "pack:library": "npm run build && npm pack ./build/_publish",
+    "publish:library": "npm run build && npm publish ./build/_publish",
+    "rimraf": "rimraf",
+    "webpack": "webpack",
     "cpy": "cpy",
     "tsc": "tsc",
     "tsc:noEmit": "tsc --noEmit --traceResolution"
@@ -35,22 +40,26 @@
   "typings": "./svg.js.d.ts",
   "devDependencies": {
     "autoprefixer": "^8.6.2",
+    "awesome-typescript-loader": "^3.4.1",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-preset-es2015": "^6.24.1",
+    "cpy-cli": "^1.0.1",
     "css-loader": "^0.28.11",
     "extract-loader": "^2.0.1",
     "file-loader": "^1.1.11",
     "hoek": "5.0.3",
+    "npm-run-all": "^4.1.2",
     "node-sass": "^4.9.0",
     "postcss-loader": "^2.1.5",
+    "rimraf": "^2.6.2",
     "sass-loader": "^7.0.3",
     "ts-loader": "^3.0.0",
     "typescript": "2.9.2",
     "webpack": "^3.12.0",
     "webpack-dev-server": "^2.11.2"
   },
-  "peerDependencies": {
+  "dependencies": {
     "bezier-easing": "^2.1.0",
     "svg.js": "^2.6.5",
     "svg.filter.js": "^2.0.2"
