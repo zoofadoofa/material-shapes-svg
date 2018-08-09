@@ -1,5 +1,5 @@
 import * as svgjs from 'svg.js';
-import { rippleDuration, rippleOpacity, rippleRadius } from './ripple.const';
+import { RippleDuration, RippleOpacity, RippleRadius } from './ripple.const';
 
 const MDSRipple = svgjs.invent({
     create: 'circle',
@@ -11,7 +11,7 @@ const MDSRipple = svgjs.invent({
         reset: function() {
             const doc= this.doc();
             const background = doc.select('.mss-ripple-background').members[0];
-            background.animate(rippleDuration.fadeOut, '-').attr('opacity', 0);
+            background.animate(RippleDuration.fadeOut, '-').attr('opacity', 0);
             return this;
         },
         expand: function(x: number, y: number) {
@@ -22,16 +22,16 @@ const MDSRipple = svgjs.invent({
             background.stop ? background.stop(false, true) : () => {};
             this.stop ? this.stop(false, true) : () => {};
 
-            background.animate(rippleDuration.fadeIn, '-')
+            background.animate(RippleDuration.fadeIn, '-')
                 .attr('opacity', this.contrast === 'light'
-                ? rippleOpacity.light.press
-                : rippleOpacity.dark.press
+                ? RippleOpacity.light.press
+                : RippleOpacity.dark.press
             );
 
             this.radius(this._initialSize, this._initialSize)
                 .cx(x)
                 .cy(y)
-                .animate(rippleDuration.translate, '-', rippleDuration.delay)
+                .animate(RippleDuration.translate, '-', RippleDuration.delay)
                 .radius(this._maxDiameter, this._maxDiameter)
 
             return this;
@@ -51,7 +51,7 @@ svgjs.extend(svgjs.Shape, {
         const mask = doc.mask().addClass('mss-ripple-mask');
 
         const maxDiameter = Math.max(background.height(), background.width());
-        const initialSize = maxDiameter * rippleRadius.initialScale;
+        const initialSize = maxDiameter * RippleRadius.initialScale;
         const ripple: svgjs.MDSRipple = doc.put(new MDSRipple)
             .radius(initialSize, initialSize)
             .addClass('mss-ripple-cricle')

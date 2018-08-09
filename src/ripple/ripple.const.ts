@@ -1,4 +1,4 @@
-export const rippleDuration = {
+export const RippleDuration = {
     fadeIn: 75,
     fadeOut: 150,
     translate: 225,
@@ -6,7 +6,7 @@ export const rippleDuration = {
     delay: 75
 }
 
-export const rippleOpacity = {
+export const RippleOpacity = {
     light: {
         hover: 0.08,
         focus: 0.24,
@@ -23,7 +23,7 @@ export const rippleOpacity = {
     }
 }
 
-export const rippleRadius = {
+export const RippleRadius = {
     padding: 10,
     initialScale: 0.2
 }

@@ -1,5 +1,5 @@
 import * as SVG from 'svg.js';
-import { elevationMap } from './elevation.const';
+import { ElevationMap } from './elevation.const';
 import * as BezierEasing from 'bezier-easing';
 import { Duration, Ease } from '../animation/animation.const';
 
@@ -75,9 +75,9 @@ const animateElevation = function(
 SVG.extend(SVG.Filter, {
     elevate: function(z: SVG.zDepth) {
         const effects = this.children();
-        animateElevation(effects[0], effects[1], elevationMap.umbra[z]);
-        animateElevation(effects[4], effects[5], elevationMap.penumbra[z]);
-        animateElevation(effects[8], effects[9], elevationMap.ambient[z]);
+        animateElevation(effects[0], effects[1], ElevationMap.umbra[z]);
+        animateElevation(effects[4], effects[5], ElevationMap.penumbra[z]);
+        animateElevation(effects[8], effects[9], ElevationMap.ambient[z]);
         return this;
     }
 })
@@ -85,13 +85,13 @@ SVG.extend(SVG.Filter, {
 SVG.extend(SVG.Shape, {
     elevation: function(z: SVG.zDepth): SVG.Filter {
         return this.filter(function(add: SVG.Filter) {
-            const u: SVG.MDSBoxShadow = elevationMap.umbra[z];
-            const p: SVG.MDSBoxShadow = elevationMap.penumbra[z];
-            const a: SVG.MDSBoxShadow = elevationMap.ambient[z];
+            const u: SVG.MDSBoxShadow = ElevationMap.umbra[z];
+            const p: SVG.MDSBoxShadow = ElevationMap.penumbra[z];
+            const a: SVG.MDSBoxShadow = ElevationMap.ambient[z];
 
-            const uShadow = dropShadow(add, u.x, u.y + u.spread, u.blur, 1, elevationMap.umbra.opacity);
-            const pShadow = dropShadow(add, p.x, p.y + p.spread, p.blur, 1, elevationMap.penumbra.opacity);
-            const aShadow = dropShadow(add, a.x, a.y + a.spread, a.blur, 1, elevationMap.ambient.opacity);
+            const uShadow = dropShadow(add, u.x, u.y + u.spread, u.blur, 1, ElevationMap.umbra.opacity);
+            const pShadow = dropShadow(add, p.x, p.y + p.spread, p.blur, 1, ElevationMap.penumbra.opacity);
+            const aShadow = dropShadow(add, a.x, a.y + a.spread, a.blur, 1, ElevationMap.ambient.opacity);
 
             add.merge(uShadow, pShadow, aShadow, add.source);
 

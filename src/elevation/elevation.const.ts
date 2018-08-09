@@ -1,4 +1,4 @@
-export const elevationMap = {
+export const ElevationMap = {
     umbra: {
         opacity: 0.2,
         0: { x: 0, y: 0, blur: 0, spread: 0},
