@@ -1,11 +1,3 @@
-// @import "@material/button/mdc-button";
-// @import "@material/icon-button/mdc-icon-button";
-// @import "@material/fab/mdc-fab";
-// @import "@material/elevation/mdc-elevation";
-@import "../src/app-bar/app-bar";
-
-@import "../src/app-bar/app-bar.theme";
-
 body {
     margin: 0;
     background-color: #444;
@@ -23,34 +15,6 @@ body {
     &.material-stretch {
         flex: 1 1 0.0001px;
     }
-}
-
-.material-fab-center,
-.material-fab-end {
-    position: absolute;
-    transform: scale(1);
-    top: -28px;
-    transition-timing-function: cubic-bezier(0.4,0.0,0.2,1);
-    transition-duration: 300ms;
-}
-
-.toolbar:hover{
-    .material-fab-center,
-    .material-fab-end {
-        // transform: scale(0);
-    }
-}
-
-.material-fab-end {
-    right: 24px;
-}
-
-.material-fab-center {
-    left: calc(50% - 28px);
-}
-
-.material-fab {
-    // @include mdc-fab-accessible(#000);
 }
 
 .spacer {
@@ -237,5 +201,4 @@ $shrine-secondary: #feeae6;
     width: 50%;
 }
 
-@include tmdc-app-bar-theme(#6200ee);
 
