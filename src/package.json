@@ -1,5 +1,5 @@
 {
-    "name": "@material/shapes-svg",
+    "name": "material-shapes-svg",
     "version": "1.0.0",
     "license": "MIT",
     "main": "./bundles/material-shapes-svg.js",
