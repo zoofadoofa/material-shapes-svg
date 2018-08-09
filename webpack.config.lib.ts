@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
+const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = () => {
     const config = {
@@ -14,8 +16,11 @@ module.exports = () => {
             library: 'material-shapes-svg'
         },
         resolve: {
-            extensions: ['.ts', '.js', '.scss'],
+            extensions: ['.ts', '.js'],
         },
+        externals: [
+            nodeExternals()
+        ],
         devtool: 'source-map',
         module: {
             rules: [
@@ -37,6 +42,7 @@ module.exports = () => {
             ]
         },
         plugins: [
+            // new webpackBundleAnalyzer(),
             new webpack.optimize.UglifyJsPlugin({
                 include: /\.min\.js$/,
                 sourceMap: true

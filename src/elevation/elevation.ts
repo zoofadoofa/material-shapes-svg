@@ -1,7 +1,7 @@
 import * as SVG from 'svg.js';
 import { elevationMap } from './elevation.const';
 import * as BezierEasing from 'bezier-easing';
-import { Duration, Ease } from '../core/animation/animation.const';
+import { Duration, Ease } from '../animation/animation.const';
 
 const convertBoxShadowBlurToSVGGaussianBlur = function(pixel: number): number {
     // See AmeliaBr's notes about blur in the comments section of link below
