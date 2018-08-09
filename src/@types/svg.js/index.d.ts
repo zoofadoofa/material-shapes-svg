@@ -94,3 +94,117 @@ declare module "svg.js" {
         Filter: Filter;
     }
 }
+
+// refactor to merge svgjs manual typings with typings generated from src code
+
+interface IComplexDuration {
+    simple: number;
+    in: number;
+    out: number;
+    complex: number;
+    complexFeedback: number;
+}
+
+interface ISimpleDuration {
+    in: number;
+    out: number;
+}
+
+interface IDuration {
+    small: IComplexDuration;
+    medium: ISimpleDuration;
+    large: ISimpleDuration;
+}
+
+export const Duration: IDuration;
+
+interface ISequence {
+    incoming: number;
+    outgoing: number;
+    persistent: number;
+}
+
+export const Sequence: ISequence;
+
+interface ICubicBezier {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+}
+
+interface IEase {
+    standard: ICubicBezier;
+    decelerate: ICubicBezier;
+    accelerate: ICubicBezier;
+}
+
+export const Ease: IEase;
+
+interface IElevation {
+    opacity: number;
+    0: svgjs.MDSBoxShadow;
+    1: svgjs.MDSBoxShadow;
+    2: svgjs.MDSBoxShadow;
+    3: svgjs.MDSBoxShadow;
+    4: svgjs.MDSBoxShadow;
+    5: svgjs.MDSBoxShadow;
+    6: svgjs.MDSBoxShadow;
+    7: svgjs.MDSBoxShadow;
+    8: svgjs.MDSBoxShadow;
+    9: svgjs.MDSBoxShadow;
+    10: svgjs.MDSBoxShadow;
+    11: svgjs.MDSBoxShadow;
+    12: svgjs.MDSBoxShadow;
+    13: svgjs.MDSBoxShadow;
+    14: svgjs.MDSBoxShadow;
+    15: svgjs.MDSBoxShadow;
+    16: svgjs.MDSBoxShadow;
+    17: svgjs.MDSBoxShadow;
+    18: svgjs.MDSBoxShadow;
+    19: svgjs.MDSBoxShadow;
+    20: svgjs.MDSBoxShadow;
+    21: svgjs.MDSBoxShadow;
+    22: svgjs.MDSBoxShadow;
+    23: svgjs.MDSBoxShadow;
+    24: svgjs.MDSBoxShadow;
+}
+
+interface IElevationMap {
+    umbra: IElevation;
+    penumbra: IElevation;
+    ambient: IElevation;
+}
+
+export const ElevationMap: IElevationMap;
+
+
+interface IRippleDuration {
+    fadeIn: number;
+    fadeOut: number;
+    translate: number;
+    wash: number;
+    delay: number;
+}
+
+export const RippleDuration: IRippleDuration;
+
+interface IStatesOpacity {
+    hover: number;
+    focus: number;
+    press: number;
+    selected: number;
+    activated: number;
+}
+interface IRippleOpacity {
+    light: IStatesOpacity;
+    dark: IStatesOpacity;
+}
+
+export const RippleOpacity: IRippleOpacity;
+
+interface IRippleRadius {
+    padding: number;
+    initialScale: number;
+}
+export const RippleRadius: IRippleRadius;
