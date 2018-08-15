@@ -15,6 +15,7 @@ declare module "svg.js" {
         contrast: MDSContrast;
         reset(): this;
         expand(x: number, y: number): this;
+        updateMinMax(width: number, height: number): this;
     }
 
     interface Shape {

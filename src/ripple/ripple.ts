@@ -8,13 +8,18 @@ const MDSRipple = svgjs.invent({
         _initialSize: 0,
         _maxDiameter: 0,
         contrast: 'dark',
-        reset: function() {
+        updateMinMax: function(width: number, height: number): svgjs.MDSRipple {
+            this._maxDiameter = Math.max(height, width);
+            this._initialSize = this._maxDiameter * RippleRadius.initialScale;
+            return this;
+        },
+        reset: function(): svgjs.MDSRipple {
             const doc= this.doc();
             const background = doc.select('.mss-ripple-background').members[0];
             background.animate(RippleDuration.fadeOut, '-').attr('opacity', 0);
             return this;
         },
-        expand: function(x: number, y: number) {
+        expand: function(x: number, y: number): svgjs.MDSRipple {
             const doc = this.doc();
             const background = doc.select('.mss-ripple-background').members[0];
 
@@ -45,7 +50,7 @@ const MDSRipple = svgjs.invent({
 })
 
 svgjs.extend(svgjs.Shape, {
-    ripple: function(contrast?: svgjs.MDSContrast) {
+    ripple: function(contrast?: svgjs.MDSContrast): svgjs.MDSRipple {
         const doc = this.doc();
         const background = this.addClass('mss-ripple-background').opacity(0);
         const mask = doc.mask().addClass('mss-ripple-mask');
