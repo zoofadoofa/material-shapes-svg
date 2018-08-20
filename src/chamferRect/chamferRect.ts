@@ -53,20 +53,47 @@ const MDSChamferRect = svgjs.invent({
     create: 'path',
     inherit: svgjs.Path,
     extend: {
-        chamfer: function(width: number, height: number, cut: number): svgjs.MDSChamferRect {
+        chamfer: function(
+            width: number,
+            height: number,
+            cutTopLeft: number,
+            cutTopRight?: number,
+            cutBottomRight?: number,
+            cutBottomLeft?: number
+        ): svgjs.MDSChamferRect {
+
+            const topLeft = cutTopLeft ? cutTopLeft : 0;
+            const topRight = cutTopRight != null ? cutTopRight : topLeft;
+            const bottomRight = cutBottomRight != null ? cutBottomRight : topLeft;
+            const bottomLeft = cutBottomLeft != null ? cutBottomLeft : topLeft;
+
             const d = `
-                ${cutCorner(0, 0, cut, 'top-left', true)}
-                ${cutCorner(width, 0, cut, 'top-right', false)}
-                ${cutCorner(width, height, cut, 'bottom-right', false)}
-                ${cutCorner(0, height, cut, 'bottom-left', false)}
+            ${cutCorner(0, 0, topLeft, 'top-left', true)}
+            ${cutCorner(width, 0, topRight, 'top-right', false)}
+            ${cutCorner(width, height, bottomRight, 'bottom-right', false)}
+            ${cutCorner(0, height, bottomLeft, 'bottom-left', false)}
             `;
 
             return this.plot(d);
-        }
+        },
     },
     construct: {
-        chamferRect: function(width: number, height: number, cut: number): svgjs.MDSChamferRect {
-            return this.put(new MDSChamferRect).chamfer(width, height, cut);
+        chamferRect: function(
+            width: number,
+            height: number,
+            cutTopLeft: number,
+            cutTopRight?: number,
+            cutBottomRight?: number,
+            cutBottomLeft?: number
+        ): svgjs.MDSChamferRect {
+            return this.put(new MDSChamferRect).chamfer(
+                width,
+                height,
+                cutTopLeft,
+                cutTopRight,
+                cutBottomRight,
+                cutBottomLeft
+            );
         }
     }
 })

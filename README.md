@@ -13,13 +13,57 @@ npm install material-shapes-svg
 ### `Chamfer Rectangle`
 Creates a rectangle with cut corners. ![](https://storage.googleapis.com/spec-host-backup/mio-design%2Fassets%2F1D3gHt8IEzInmjBkQOYnztlziEtEOOkhm%2Fbutton-shrine-shape.png)
 
-**`svgjs.Doc.chamferRect(`**
+**`svgjs.Doc.chamferRect(`**<br/>
 **width**:
-number,
+number,<br/>
 **height**:
-number,
-**chamferLength**:
-number
+number,<br/>
+**chamferAllLength**:
+number,<br/>
+**`)`**:
+**svgjs.MDSChamferRect**
+
+**`svgjs.Doc.chamferRect(`**<br/>
+**width**:
+number,<br/>
+**height**:
+number,<br/>
+**chamferTopLeftLength**:
+number,<br/>
+**chamferTopRightLength**:
+number,<br/>
+**chamferBottomRightLength**:
+number,<br/>
+**chamferBottomLeftLength**:
+number<br/>
+**`)`**:
+**svgjs.MDSChamferRect**
+
+Change the chamfer length later after the ChamferRect has been created using the chamfer method
+
+**`svgjs.MDSChamferRect.chamfer(`**<br/>
+**width**:
+number,<br/>
+**height**:
+number,<br/>
+**chamferAllLength**:
+number,<br/>
+**`)`**:
+**svgjs.MDSChamferRect**
+
+**`svgjs.MDSChamferRect.chamfer(`**<br/>
+**width**:
+number,<br/>
+**height**:
+number,<br/>
+**chamferTopLeftLength**:
+number,<br/>
+**chamferTopRightLength**:
+number,<br/>
+**chamferBottomRightLength**:
+number,<br/>
+**chamferBottomLeftLength**:
+number<br/>
 **`)`**:
 **svgjs.MDSChamferRect**
 
@@ -130,6 +174,16 @@ number
 **svgjs.MDSRipple**
 
 **`svgjs.MDSRipple.reset()`**:
+**svgjs.MDSRipple**
+
+If you need to update the extents of the ripple use updateMinMax, such as parent container resized.
+
+**`svgjs.MDSRipple.updateMinMax(`**
+**width**:
+number,
+**height**:
+number
+**`)`**:
 **svgjs.MDSRipple**
 
 **`svgjs.MDSRipple.contrast`**: svgjs.MDSContrast ( **`'light'`** | **`'dark'`** )

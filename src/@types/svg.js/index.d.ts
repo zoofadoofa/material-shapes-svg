@@ -26,13 +26,70 @@ declare module "svg.js" {
         MDSRipple: MDSRipple;
     }
 
+    // rectCutOut.ts
+    export interface MDSRectCutOut extends Path {
+        _alignX: CutOutAlignX;
+        _alignY: CutOutAlignY;
+        _edgeDistance: number,
+        _rounded: number,
+        _diameter: number,
+        _isCutoutShowing: boolean,
+        _startPathOpen: string,
+        _centerPathOpen: string,
+        _endPathOpen: string,
+        _startPathClosed: string,
+        _centerPathClosed: string,
+        _endPathClosed: string,
+        _updatePaths(width: number, height:number, rectCutOut: MDSRectCutOut): this;
+        showCutOut(alignX: CutOutAlignX): this;
+        hideCutOut(): this;
+        resize(width: number, height: number): this;
+    }
+
+    export type CutOutAlignX = 'start' | 'center' | 'end';
+    export type CutOutAlignY = 'top' | 'bottom';
+    export type CutOutType = 'circle' | 'triangle';
+
+    interface Doc {
+        circleCutOut(
+            width: number,
+            height: number,
+            diameter: number,
+            alignX: CutOutAlignX,
+            alignY: CutOutAlignY,
+            padding?: number,
+            rounded?: number,
+            showCutOut?: boolean
+        ): MDSRectCutOut;
+    }
+
+    interface Library {
+        MDSRectCutOut: MDSRectCutOut;
+    }
+
     // chamferRect.ts
     export interface MDSChamferRect extends Path {
         chamfer(width: number, height: number, cut: number): this;
+        chamfer(
+            width: number,
+            height: number,
+            cutTopLeft: number,
+            cutTopRight: number,
+            cutBottomRight: number,
+            cutBottomLeft: number
+        ): this;
     }
 
     interface Doc {
         chamferRect(width: number, height: number, cut: number): MDSChamferRect;
+        chamferRect(
+            width: number,
+            height: number,
+            cutTopLeft: number,
+            cutTopRight: number,
+            cutBottomRight: number,
+            cutBottomLeft: number
+        ): MDSChamferRect;
     }
 
     interface Library {
