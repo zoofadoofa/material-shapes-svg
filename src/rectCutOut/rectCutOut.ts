@@ -5,6 +5,13 @@ import * as BezierEasing from 'bezier-easing';
 const convex = '0 0 1';
 const concave = '0 1 0';
 
+const CutOutEase = BezierEasing(
+    Ease.standard.x1,
+    Ease.standard.y1,
+    Ease.standard.x2,
+    Ease.standard.y2
+);
+
 const cutTopCircle = function(
     x: number,
     diameter: number,
@@ -61,6 +68,31 @@ const cutBottomCircle = function(
     `;
 }
 
+const cutTopTriangle = function(
+    x: number,
+    size: number
+): string {
+    const halfSize = size * 0.5;
+    return `
+        L ${x - halfSize} 0
+        L ${x} ${halfSize}
+        L ${x + halfSize} 0
+    `;
+}
+
+const cutBottomTriangle = function(
+    x: number,
+    y: number,
+    size: number
+): string {
+    const halfSize = size * 0.5;
+    return `
+        L ${x + halfSize} ${y}
+        L ${x} ${y - halfSize}
+        L ${x - halfSize} ${y}
+    `;
+}
+
 const createCirclePaths = function (
     width: number,
     height: number,
@@ -98,15 +130,15 @@ const createCirclePaths = function (
             cutTopCircle(
                 rectCutOut._edgeDistance,
                 rectCutOut._diameter,
-                rectCutOut._rounded,
-                rectCutOut._rounded
+                rectCutOut._chamfer,
+                rectCutOut._chamfer
             )
         );
         rectCutOut._startPathClosed = insertTopCutOut(
             cutTopCircle(
                 rectCutOut._edgeDistance,
                 0,
-                rectCutOut._rounded,
+                rectCutOut._chamfer,
                 0
             )
         );
@@ -114,15 +146,15 @@ const createCirclePaths = function (
             cutTopCircle(
                 halfWidth,
                 rectCutOut._diameter,
-                rectCutOut._rounded,
-                rectCutOut._rounded
+                rectCutOut._chamfer,
+                rectCutOut._chamfer
             )
         );
         rectCutOut._centerPathClosed = insertTopCutOut(
             cutTopCircle(
                 halfWidth,
                 0,
-                rectCutOut._rounded,
+                rectCutOut._chamfer,
                 0
             )
         );
@@ -130,15 +162,15 @@ const createCirclePaths = function (
             cutTopCircle(
                 width - rectCutOut._edgeDistance,
                 rectCutOut._diameter,
-                rectCutOut._rounded,
-                rectCutOut._rounded
+                rectCutOut._chamfer,
+                rectCutOut._chamfer
             )
         );
         rectCutOut._endPathClosed = insertTopCutOut(
             cutTopCircle(
                 width - rectCutOut._edgeDistance,
                 0,
-                rectCutOut._rounded,
+                rectCutOut._chamfer,
                 0
             )
         );
@@ -149,8 +181,8 @@ const createCirclePaths = function (
                 rectCutOut._edgeDistance,
                 height,
                 rectCutOut._diameter,
-                rectCutOut._rounded,
-                rectCutOut._rounded
+                rectCutOut._chamfer,
+                rectCutOut._chamfer
             )
         );
         rectCutOut._startPathClosed = insertBottomCutOut(
@@ -158,7 +190,7 @@ const createCirclePaths = function (
                 rectCutOut._edgeDistance,
                 height,
                 0,
-                rectCutOut._rounded,
+                rectCutOut._chamfer,
                 0
             )
         )
@@ -167,8 +199,8 @@ const createCirclePaths = function (
                 halfWidth,
                 height,
                 rectCutOut._diameter,
-                rectCutOut._rounded,
-                rectCutOut._rounded
+                rectCutOut._chamfer,
+                rectCutOut._chamfer
             )
         );
         rectCutOut._centerPathClosed = insertBottomCutOut(
@@ -176,7 +208,7 @@ const createCirclePaths = function (
                 halfWidth,
                 height,
                 0,
-                rectCutOut._rounded,
+                rectCutOut._chamfer,
                 0
             )
         )
@@ -185,8 +217,8 @@ const createCirclePaths = function (
                 width - rectCutOut._edgeDistance,
                 height,
                 rectCutOut._diameter,
-                rectCutOut._rounded,
-                rectCutOut._rounded
+                rectCutOut._chamfer,
+                rectCutOut._chamfer
             )
         );
         rectCutOut._endPathClosed = insertBottomCutOut(
@@ -194,7 +226,127 @@ const createCirclePaths = function (
                 width - rectCutOut._edgeDistance,
                 height,
                 0,
-                rectCutOut._rounded,
+                rectCutOut._chamfer,
+                0
+            )
+        )
+    }
+
+    return rectCutOut;
+}
+
+const createTrianglePaths = function(
+    width: number,
+    height: number,
+    rectCutOut: svgjs.MDSRectCutOut
+): svgjs.MDSRectCutOut {
+    const halfWidth = width * 0.5;
+    const topPathBeforeCutOut = `M 0 0`;
+    const topPathAfterCutOut =`
+        L ${width} 0
+        L ${width} ${height}
+        L 0 ${height}
+        Z
+    `;
+    const bottomPathBeforeCutOut = `
+        M 0 0
+        L ${width} 0
+        L ${width} ${height}
+    `;
+    const bottomPathAfterCutOut = `
+        L 0 ${height}
+        Z
+    `;
+
+    const halfChamfer = rectCutOut._chamfer * 0.33;
+
+    const insertTopCutOut = function (cutOutPath: string): string {
+        return `${topPathBeforeCutOut} ${cutOutPath} ${topPathAfterCutOut}`;
+    }
+
+    const insertBottomCutOut = function (cutOutPath: string): string {
+        return `${bottomPathBeforeCutOut} ${cutOutPath} ${bottomPathAfterCutOut}`;
+    }
+
+
+    if (rectCutOut._alignY === 'top') {
+        rectCutOut._startPathOpen = insertTopCutOut(
+            cutTopTriangle(
+                rectCutOut._edgeDistance,
+                rectCutOut._diameter
+            )
+        );
+        rectCutOut._startPathClosed = insertTopCutOut(
+            cutTopTriangle(
+                rectCutOut._edgeDistance,
+                0
+            )
+        );
+        rectCutOut._centerPathOpen = insertTopCutOut(
+            cutTopTriangle(
+                halfWidth,
+                rectCutOut._diameter
+            )
+        );
+        rectCutOut._centerPathClosed = insertTopCutOut(
+            cutTopTriangle(
+                halfWidth,
+                0
+            )
+        );
+        rectCutOut._endPathOpen = insertTopCutOut(
+            cutTopTriangle(
+                width - rectCutOut._edgeDistance,
+                rectCutOut._diameter
+            )
+        );
+        rectCutOut._endPathClosed = insertTopCutOut(
+            cutTopTriangle(
+                width - rectCutOut._edgeDistance,
+                0
+            )
+        );
+
+    } else {
+        rectCutOut._startPathOpen = insertBottomCutOut(
+            cutBottomTriangle(
+                rectCutOut._edgeDistance,
+                height,
+                rectCutOut._diameter
+            )
+        );
+        rectCutOut._startPathClosed = insertBottomCutOut(
+            cutBottomTriangle(
+                rectCutOut._edgeDistance,
+                height,
+                0
+            )
+        )
+        rectCutOut._centerPathOpen = insertBottomCutOut(
+            cutBottomTriangle(
+                halfWidth,
+                height,
+                rectCutOut._diameter
+            )
+        );
+        rectCutOut._centerPathClosed = insertBottomCutOut(
+            cutBottomTriangle(
+                halfWidth,
+                height,
+                0
+            )
+        )
+        rectCutOut._endPathOpen = insertBottomCutOut(
+            cutBottomTriangle(
+                width - rectCutOut._edgeDistance,
+                height,
+                rectCutOut._diameter
+            )
+        );
+        rectCutOut._endPathClosed = insertBottomCutOut(
+            cutBottomTriangle(
+                width - rectCutOut._edgeDistance,
+                height,
                 0
             )
         )
@@ -256,12 +408,7 @@ const openCutOut = function(rectCutOut: svgjs.MDSRectCutOut, alignX: svgjs.CutOu
             rectCutOut.stop(false, true);
             rectCutOut.animate(
                 Duration.small.simple,
-                BezierEasing(
-                    Ease.standard.x1,
-                    Ease.standard.x1,
-                    Ease.standard.x1,
-                    Ease.standard.x1
-                )
+                CutOutEase
             )
             .plot(getOpenPath(rectCutOut, rectCutOut._alignX))
             return;
@@ -270,40 +417,71 @@ const openCutOut = function(rectCutOut: svgjs.MDSRectCutOut, alignX: svgjs.CutOu
             rectCutOut.stop(false, true);
             rectCutOut.plot(getClosedPath(rectCutOut, alignX)).animate(
                 Duration.small.simple,
-                BezierEasing(
-                    Ease.standard.x1,
-                    Ease.standard.x1,
-                    Ease.standard.x1,
-                    Ease.standard.x1
-                )).plot(getOpenPath(rectCutOut, alignX));
+                CutOutEase
+            ).plot(getOpenPath(rectCutOut, alignX));
             return;
         }
         case 'opened-switch': {
             rectCutOut.stop(false, true);
             rectCutOut.animate(
                     Duration.small.simple,
-                    BezierEasing(
-                        Ease.standard.x1,
-                        Ease.standard.x1,
-                        Ease.standard.x1,
-                        Ease.standard.x1
-                    )
+                    CutOutEase
                 )
                 .plot(getClosedPath(rectCutOut, rectCutOut._alignX)).after(function(){
                     return rectCutOut.plot(getClosedPath(rectCutOut, alignX)).animate(
                         Duration.small.simple,
-                        BezierEasing(
-                            Ease.standard.x1,
-                            Ease.standard.x1,
-                            Ease.standard.x1,
-                            Ease.standard.x1
-                        )
+                        CutOutEase
                     )
                     .plot(getOpenPath(rectCutOut, alignX));
                 });
             return;
         }
     }
+}
+
+const initialize = function(
+    rectCutOut: svgjs.MDSRectCutOut,
+    updatePaths: any,
+    width: number,
+    height: number,
+    diameter: number,
+    alignX: svgjs.CutOutAlignX,
+    alignY: svgjs.CutOutAlignY,
+    padding?: number,
+    chamfer?: number,
+    showCutOut?: boolean
+): svgjs.MDSRectCutOut {
+    const paddingSize = padding ? padding : 0;
+    const chamferSize = chamfer ? chamfer : 0;
+    const show = showCutOut ? showCutOut : false;
+
+    rectCutOut._alignX = alignX;
+    rectCutOut._alignY = alignY;
+    rectCutOut._diameter = diameter;
+    rectCutOut._edgeDistance = paddingSize + diameter * 0.5;
+    rectCutOut._chamfer = chamferSize;
+    rectCutOut._isCutoutShowing = show;
+    rectCutOut._updatePaths = updatePaths;
+
+    rectCutOut._updatePaths(width, height, rectCutOut);
+
+    let path;
+    switch(alignX) {
+        case 'start': {
+            path = show ? rectCutOut._startPathOpen : rectCutOut._startPathClosed;
+            break;
+        }
+        case 'center': {
+            path = show ? rectCutOut._centerPathOpen : rectCutOut._centerPathClosed;
+            break;
+        }
+        case 'end': {
+            path = show ? rectCutOut._endPathOpen : rectCutOut._endPathClosed;
+            break;
+        }
+    }
+
+    return rectCutOut.plot(path);
 }
 
 const MDSRectCutOut = svgjs.invent({
@@ -313,7 +491,7 @@ const MDSRectCutOut = svgjs.invent({
         _alignX: '',
         _alignY: '',
         _edgeDistance: 0,
-        _rounded: 0,
+        _chamfer: 0,
         _diameter: 0,
         _startPathOpen: '',
         _centerPathOpen: '',
@@ -330,7 +508,6 @@ const MDSRectCutOut = svgjs.invent({
         ): svgjs.MDSRectCutOut {
             const isSameAlignment = alignX === this._alignX;
 
-            console.log(this._isCutoutShowing);
             const transition = getTransition(isSameAlignment, this._isCutoutShowing);
 
             openCutOut(this, alignX, transition);
@@ -344,13 +521,10 @@ const MDSRectCutOut = svgjs.invent({
             const path = getClosedPath(this, this._alignX);
             if(this._isCutoutShowing) {
                 this.stop(false, true);
-                this.animate(Duration.small.simple,
-                    BezierEasing(
-                        Ease.standard.x1,
-                        Ease.standard.x1,
-                        Ease.standard.x1,
-                        Ease.standard.x1
-                    )).plot(path);
+                this.animate(
+                    Duration.small.simple,
+                    CutOutEase
+                ).plot(path);
             }
             this._isCutoutShowing = false;
 
@@ -371,41 +545,71 @@ const MDSRectCutOut = svgjs.invent({
             alignX: svgjs.CutOutAlignX,
             alignY: svgjs.CutOutAlignY,
             padding?: number,
-            rounded?: number,
+            chamfer?: number,
             showCutOut?: boolean
-        ) {
+        ): svgjs.MDSRectCutOut {
             let rectCutOut: svgjs.MDSRectCutOut = this.put(new MDSRectCutOut);
-            const paddingSize = padding ? padding : 0;
-            const roundSize = rounded ? rounded : 0;
-            const show = showCutOut ? showCutOut : false;
 
-            rectCutOut._alignX = alignX;
-            rectCutOut._alignY = alignY;
-            rectCutOut._diameter = diameter;
-            rectCutOut._edgeDistance = paddingSize + diameter * 0.5;
-            rectCutOut._rounded = roundSize;
-            rectCutOut._isCutoutShowing = show;
-            rectCutOut._updatePaths = createCirclePaths;
+            return initialize(
+                rectCutOut,
+                createCirclePaths,
+                width,
+                height,
+                diameter,
+                alignX,
+                alignY,
+                padding,
+                chamfer,
+                showCutOut,
+            );
+        },
+        triangleCutOut: function(
+            width: number,
+            height: number,
+            diameter: number,
+            alignX: svgjs.CutOutAlignX,
+            alignY: svgjs.CutOutAlignY,
+            padding?: number,
+            showCutOut?: boolean
+        ): svgjs.MDSRectCutOut {
+            let rectCutOut: svgjs.MDSRectCutOut = this.put(new MDSRectCutOut);
 
-            rectCutOut._updatePaths(width, height, rectCutOut);
+            return initialize(
+                rectCutOut,
+                createTrianglePaths,
+                width,
+                height,
+                diameter,
+                alignX,
+                alignY,
+                padding,
+                0,
+                showCutOut,
+            );
+        },
+        // customCutOut: function(
+        //     width: number,
+        //     height: number,
+        //     diameter: number,
+        //     alignX: svgjs.CutOutAlignX,
+        //     alignY: svgjs.CutOutAlignY,
+        //     padding?: number,
+        //     showCutOut?: boolean
+        // ): svgjs.MDSRectCutOut {
+        //     let rectCutOut: svgjs.MDSRectCutOut = this.put(new MDSRectCutOut);
 
-            let path;
-            switch(alignX) {
-                case 'start': {
-                    path = show ? rectCutOut._startPathOpen : rectCutOut._startPathClosed;
-                    break;
-                }
-                case 'center': {
-                    path = show ? rectCutOut._centerPathOpen : rectCutOut._centerPathClosed;
-                    break;
-                }
-                case 'end': {
-                    path = show ? rectCutOut._endPathOpen : rectCutOut._endPathClosed;
-                    break;
-                }
-            }
-
-            return rectCutOut.plot(path);
-        }
+        //     return initialize(
+        //         rectCutOut,
+        //         createTrianglePaths,
+        //         width,
+        //         height,
+        //         diameter,
+        //         alignX,
+        //         alignY,
+        //         padding,
+        //         0,
+        //         showCutOut,
+        //     );
+        // }
     }
 });

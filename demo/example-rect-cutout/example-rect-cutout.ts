@@ -7,14 +7,14 @@ export const exampleRectCutOut = function(element: HTMLElement): HTMLElement {
 
     const svg: svgjs.Doc = svgjs(element).size(width, height).addClass('mds-svg');
 
-    const rectCutOut = svg.circleCutOut(
+    const rectCutOut = svg.triangleCutOut(
         width,
         height,
         64,
         'end',
-        'top',
+        'bottom',
         24,
-        4,
+        16,
         true
     ).fill('#6200ee');
 
