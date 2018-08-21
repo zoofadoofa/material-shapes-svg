@@ -229,6 +229,7 @@ const MDSRectCutOut = svgjs.invent({
         showCutOut: function(
             alignX: CutOutAlignX
         ): svgjs.MDSRectCutOut {
+            this.stop(false, true);
             if(alignX !== this._alignX) {
                 this._alignX = alignX;
             }
@@ -293,6 +294,7 @@ const MDSRectCutOut = svgjs.invent({
             }
 
             if(this._isCutoutShowing) {
+                this.stop(false, true);
                 this._isCutoutShowing = false;
                 return this.animate(Duration.large.out,
                     <any>BezierEasing(
