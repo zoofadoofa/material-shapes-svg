@@ -10,26 +10,33 @@ export const exampleRectCutOut = function(element: HTMLElement): HTMLElement {
     const rectCutOut = svg.circleCutOut(
         width,
         height,
-        56,
+        64,
         'end',
         'top',
-        16,
+        24,
         4,
-        false
+        true
     ).fill('#6200ee');
 
     const elevation = rectCutOut.elevation(16);
 
-    element.onmouseenter = (event: MouseEvent) => {
+    let alignment: svgjs.CutOutAlignX;
+
+
+    element.onmousedown = (event: MouseEvent) => {
         const x = event.offsetX;
+        let alignX: svgjs.CutOutAlignX;
 
         if(x < width * 0.334) {
-            rectCutOut.showCutOut('start');
+            alignX = 'start';
         } else if (x < width * 0.667) {
-            rectCutOut.showCutOut('center');
+            alignX = 'center';
         } else {
-            rectCutOut.showCutOut('end');
+            alignX = 'end';
         }
+
+        alignment = alignX;
+        rectCutOut.showCutOut(alignX);
     }
 
     element.onmouseleave = () => {

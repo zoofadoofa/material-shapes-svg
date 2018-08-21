@@ -49,6 +49,15 @@ declare module "svg.js" {
     export type CutOutAlignX = 'start' | 'center' | 'end';
     export type CutOutAlignY = 'top' | 'bottom';
     export type CutOutType = 'circle' | 'triangle';
+    export type CutOutTransition = 'none' | 'opening' | 'closed-switch' | 'opened-switch';
+
+    interface Element {
+        animate(duration?: number, ease?: Function, delay?: number): Animation;
+    }
+
+    interface Animation {
+        plot(d: PathArrayAlias): this;
+    }
 
     interface Doc {
         circleCutOut(
@@ -66,6 +75,7 @@ declare module "svg.js" {
     interface Library {
         MDSRectCutOut: MDSRectCutOut;
     }
+
 
     // chamferRect.ts
     export interface MDSChamferRect extends Path {

@@ -2,10 +2,6 @@ import * as svgjs from 'svg.js';
 import { Duration, Ease } from '../animation/animation.const';
 import * as BezierEasing from 'bezier-easing';
 
-export type CutOutAlignX = 'start' | 'center' | 'end';
-export type CutOutAlignY = 'top' | 'bottom';
-export type CutOutType = 'circle' | 'triangle';
-
 const convex = '0 0 1';
 const concave = '0 1 0';
 
@@ -207,6 +203,109 @@ const createCirclePaths = function (
     return rectCutOut;
 }
 
+const getClosedPath = function(rectCutOut: svgjs.MDSRectCutOut, alignX: svgjs.CutOutAlignX): string {
+    switch(alignX) {
+        case 'start': {
+            return rectCutOut._startPathClosed;
+        }
+        case 'center': {
+            return rectCutOut._centerPathClosed;
+        }
+        case 'end': {
+            return rectCutOut._endPathClosed;
+        }
+    }
+}
+
+const getOpenPath = function(rectCutOut: svgjs.MDSRectCutOut, alignX: svgjs.CutOutAlignX): string {
+    switch(alignX) {
+        case 'start': {
+            return rectCutOut._startPathOpen;
+        }
+        case 'center': {
+            return rectCutOut._centerPathOpen;
+        }
+        case 'end': {
+            return rectCutOut._endPathOpen;
+        }
+    }
+}
+
+const getTransition = function(isSameAlignment: boolean, isOpen: boolean): svgjs.CutOutTransition {
+    if (isSameAlignment) {
+        if(isOpen) {
+            return 'none';
+        } else {
+            return 'opening';
+        }
+    } else {
+        if(isOpen) {
+            return 'opened-switch';
+        } else {
+            return 'closed-switch';
+        }
+    }
+}
+
+const openCutOut = function(rectCutOut: svgjs.MDSRectCutOut, alignX: svgjs.CutOutAlignX, transition: svgjs.CutOutTransition) {
+    switch(transition) {
+        case 'none': {
+            return;
+        }
+        case 'opening': {
+            rectCutOut.stop(false, true);
+            rectCutOut.animate(
+                Duration.small.simple,
+                BezierEasing(
+                    Ease.standard.x1,
+                    Ease.standard.x1,
+                    Ease.standard.x1,
+                    Ease.standard.x1
+                )
+            )
+            .plot(getOpenPath(rectCutOut, rectCutOut._alignX))
+            return;
+        }
+        case 'closed-switch': {
+            rectCutOut.stop(false, true);
+            rectCutOut.plot(getClosedPath(rectCutOut, alignX)).animate(
+                Duration.small.simple,
+                BezierEasing(
+                    Ease.standard.x1,
+                    Ease.standard.x1,
+                    Ease.standard.x1,
+                    Ease.standard.x1
+                )).plot(getOpenPath(rectCutOut, alignX));
+            return;
+        }
+        case 'opened-switch': {
+            rectCutOut.stop(false, true);
+            rectCutOut.animate(
+                    Duration.small.simple,
+                    BezierEasing(
+                        Ease.standard.x1,
+                        Ease.standard.x1,
+                        Ease.standard.x1,
+                        Ease.standard.x1
+                    )
+                )
+                .plot(getClosedPath(rectCutOut, rectCutOut._alignX)).after(function(){
+                    return rectCutOut.plot(getClosedPath(rectCutOut, alignX)).animate(
+                        Duration.small.simple,
+                        BezierEasing(
+                            Ease.standard.x1,
+                            Ease.standard.x1,
+                            Ease.standard.x1,
+                            Ease.standard.x1
+                        )
+                    )
+                    .plot(getOpenPath(rectCutOut, alignX));
+                });
+            return;
+        }
+    }
+}
+
 const MDSRectCutOut = svgjs.invent({
     create: 'path',
     inherit: svgjs.Path,
@@ -227,85 +326,35 @@ const MDSRectCutOut = svgjs.invent({
             return this;
         },
         showCutOut: function(
-            alignX: CutOutAlignX
+            alignX: svgjs.CutOutAlignX
         ): svgjs.MDSRectCutOut {
-            this.stop(false, true);
-            if(alignX !== this._alignX) {
-                this._alignX = alignX;
-            }
+            const isSameAlignment = alignX === this._alignX;
 
-            let path;
-            let hidePath;
-            switch(this._alignX) {
-                case 'start': {
-                    path = this._startPathOpen;
-                    hidePath = this._startPathClosed;
-                    break;
-                }
-                case 'center': {
-                    path = this._centerPathOpen;
-                    hidePath = this._centerPathClosed;
-                    break;
-                }
-                case 'end': {
-                    path = this._endPathOpen;
-                    hidePath = this._endPathClosed;
-                    break;
-                }
-            }
+            console.log(this._isCutoutShowing);
+            const transition = getTransition(isSameAlignment, this._isCutoutShowing);
 
+            openCutOut(this, alignX, transition);
 
-            if(this._isCutoutShowing) {
-                return this.hide().animate(
-                    Duration.large.in,
-                    <any>BezierEasing(
-                        Ease.standard.x1,
-                        Ease.standard.x1,
-                        Ease.standard.x1,
-                        Ease.standard.x1
-                    )).plot(path);
-            } else {
-                this._isCutoutShowing = true;
-                return this.plot(hidePath).animate(
-                    Duration.large.in,
-                    <any>BezierEasing(
-                        Ease.standard.x1,
-                        Ease.standard.x1,
-                        Ease.standard.x1,
-                        Ease.standard.x1
-                    )).plot(path);
-            }
+            this._alignX = alignX;
+            this._isCutoutShowing = true;
+
+            return this;
         },
         hideCutOut: function(): svgjs.MDSRectCutOut {
-            let path;
-            switch(this._alignX) {
-                case 'start': {
-                    path = this._startPathClosed;
-                    break;
-                }
-                case 'center': {
-                    path = this._centerPathClosed;
-                    break;
-                }
-                case 'end': {
-                    path = this._endPathClosed;
-                    break;
-                }
-            }
-
+            const path = getClosedPath(this, this._alignX);
             if(this._isCutoutShowing) {
                 this.stop(false, true);
-                this._isCutoutShowing = false;
-                return this.animate(Duration.large.out,
-                    <any>BezierEasing(
+                this.animate(Duration.small.simple,
+                    BezierEasing(
                         Ease.standard.x1,
                         Ease.standard.x1,
                         Ease.standard.x1,
                         Ease.standard.x1
                     )).plot(path);
-            } else {
-                return this.plot(path);
             }
+            this._isCutoutShowing = false;
+
+            return this;
         },
         resize: function(
             width: number,
@@ -319,8 +368,8 @@ const MDSRectCutOut = svgjs.invent({
             width: number,
             height: number,
             diameter: number,
-            alignX: CutOutAlignX,
-            alignY: CutOutAlignY,
+            alignX: svgjs.CutOutAlignX,
+            alignY: svgjs.CutOutAlignY,
             padding?: number,
             rounded?: number,
             showCutOut?: boolean
