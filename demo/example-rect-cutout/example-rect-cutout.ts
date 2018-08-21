@@ -18,17 +18,16 @@ export const exampleRectCutOut = function(element: HTMLElement): HTMLElement {
         false
     ).fill('#6200ee');
 
+    const elevation = rectCutOut.elevation(16);
+
     element.onmouseenter = (event: MouseEvent) => {
         const x = event.offsetX;
 
         if(x < width * 0.334) {
-            console.log('start');
             rectCutOut.showCutOut('start');
         } else if (x < width * 0.667) {
             rectCutOut.showCutOut('center');
-            console.log('center');
         } else {
-            console.log('end');
             rectCutOut.showCutOut('end');
         }
     }

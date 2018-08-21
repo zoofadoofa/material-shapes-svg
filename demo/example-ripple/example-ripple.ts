@@ -19,7 +19,6 @@ export const exampleRipple = function(element: HTMLElement): HTMLElement {
     .fill('#000');
 
     const ripple: svgjs.MDSRipple = rippleRect.ripple('dark');
-    console.log('contrast', ripple.contrast)
 
     element.onmousedown = (event: MouseEvent) => {
         ripple.expand(event.offsetX, event.offsetY);

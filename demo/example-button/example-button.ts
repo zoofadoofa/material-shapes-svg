@@ -1,5 +1,4 @@
 import * as svgjs from 'svg.js';
-import 'svg.filter.js';
 
 import '../../src/chamferRect/chamferRect';
 import '../../src/ripple/ripple';

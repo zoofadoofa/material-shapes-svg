@@ -60,6 +60,10 @@ body {
 .example-rect-cutout {
     height: 56px;
     width: 100%;
+
+    .mds-svg {
+        overflow: visible;
+    }
 }
 
 $shrine-primary-100: #fedbd0;

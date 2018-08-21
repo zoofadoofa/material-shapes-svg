@@ -1,4 +1,6 @@
 import * as SVG from 'svg.js';
+import 'svg.filter.js';
+
 import { ElevationMap } from './elevation.const';
 import * as BezierEasing from 'bezier-easing';
 import { Duration, Ease } from '../animation/animation.const';
