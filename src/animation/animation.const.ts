@@ -1,6 +1,6 @@
 export const Duration = {
     small: {
-        simple: 100,
+        simple: 1000,
         in: 150,
         out: 75,
         complex: 200,

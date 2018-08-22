@@ -30,6 +30,7 @@ declare module "svg.js" {
     export interface MDSRectCutOut extends Path {
         _alignX: CutOutAlignX;
         _alignY: CutOutAlignY;
+        _padding: number,
         _edgeDistance: number,
         _roundedEdge: number,
         _diameter: number,
@@ -40,6 +41,8 @@ declare module "svg.js" {
         _startPathClosed: string,
         _centerPathClosed: string,
         _endPathClosed: string,
+        _customCutoutOpen: string,
+        _customCutoutClosed: string,
         _updatePaths(width: number, height:number, rectCutOut: MDSRectCutOut): this;
         showCutOut(alignX: CutOutAlignX): this;
         hideCutOut(): this;
@@ -73,6 +76,17 @@ declare module "svg.js" {
         triangleCutOut(
             width: number,
             height: number,
+            diameter: number,
+            alignX: CutOutAlignX,
+            alignY: CutOutAlignY,
+            padding?: number,
+            showCutOut?: boolean
+        ): MDSRectCutOut;
+        customCutOut(
+            width: number,
+            height: number,
+            customCutoutOpen: string,
+            customCutoutClosed: string,
             diameter: number,
             alignX: CutOutAlignX,
             alignY: CutOutAlignY,

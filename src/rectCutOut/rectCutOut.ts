@@ -265,9 +265,12 @@ const createTrianglePaths = function(
     }
 
     const insertBottomCutOut = function (cutOutPath: string): string {
-        return `${bottomPathBeforeCutOut} ${cutOutPath} ${bottomPathAfterCutOut}`;
+        return `
+            ${bottomPathBeforeCutOut}
+            ${cutOutPath}
+            ${bottomPathAfterCutOut}
+        `;
     }
-
 
     if (rectCutOut._alignY === 'top') {
         rectCutOut._startPathOpen = insertTopCutOut(
@@ -350,6 +353,114 @@ const createTrianglePaths = function(
                 0
             )
         )
+    }
+
+    return rectCutOut;
+}
+
+const createCustomPaths = function(
+    width: number,
+    height: number,
+    rectCutOut: svgjs.MDSRectCutOut
+): svgjs.MDSRectCutOut {
+    const halfWidth = width * 0.5;
+    const xStart = rectCutOut._padding;
+    const xCenter = halfWidth - rectCutOut._diameter * 0.5;
+    const xEnd = width - (rectCutOut._padding + rectCutOut._diameter);
+    const topPathBeforeCutOut = `
+        M 0 0
+    `;
+    const topPathAfterCutOut =`
+        L ${width} 0
+        L ${width} ${height}
+        L 0 ${height}
+        Z
+    `;
+    const bottomPathBeforeCutOut = `
+        M 0 0
+        L ${width} 0
+        L ${width} ${height}
+    `;
+    const bottomPathAfterCutOut = `
+        L 0 ${height}
+        Z
+    `;
+
+
+    if(rectCutOut._alignY === 'top') {
+        rectCutOut._startPathOpen = `
+            ${topPathBeforeCutOut}
+            L ${xStart} 0
+            ${rectCutOut._customCutoutOpen}
+            ${topPathAfterCutOut}
+        `;
+        rectCutOut._startPathClosed = `
+            ${topPathBeforeCutOut}
+            L ${xStart + rectCutOut._diameter * 0.5} 0
+            ${rectCutOut._customCutoutClosed}
+            ${topPathAfterCutOut}
+        `;
+        rectCutOut._centerPathOpen = `
+            ${topPathBeforeCutOut}
+            L ${xCenter} 0
+            ${rectCutOut._customCutoutOpen}
+            ${topPathAfterCutOut}
+        `;
+        rectCutOut._centerPathClosed = `
+            ${topPathBeforeCutOut}
+            L ${halfWidth} 0
+            ${rectCutOut._customCutoutClosed}
+            ${topPathAfterCutOut}
+        `;
+        rectCutOut._endPathOpen = `
+            ${topPathBeforeCutOut}
+            L ${xEnd} 0
+            ${rectCutOut._customCutoutOpen}
+            ${topPathAfterCutOut}
+        `;
+        rectCutOut._endPathClosed = `
+            ${topPathBeforeCutOut}
+            L ${width - (rectCutOut._padding + rectCutOut._diameter * 0.5)} 0
+            ${rectCutOut._customCutoutClosed}
+            ${topPathAfterCutOut}
+        `;
+    } else {
+        rectCutOut._startPathOpen = `
+            ${bottomPathBeforeCutOut}
+            L ${xStart} 0
+            ${rectCutOut._customCutoutOpen}
+            ${bottomPathAfterCutOut}
+        `;
+        rectCutOut._startPathClosed = `
+            ${bottomPathBeforeCutOut}
+            L ${xStart} 0
+            ${rectCutOut._customCutoutClosed}
+            ${bottomPathAfterCutOut}
+        `;
+        rectCutOut._centerPathOpen = `
+            ${bottomPathBeforeCutOut}
+            L ${xCenter} 0
+            ${rectCutOut._customCutoutOpen}
+            ${bottomPathAfterCutOut}
+        `;
+        rectCutOut._centerPathClosed = `
+            ${bottomPathBeforeCutOut}
+            L ${xCenter} 0
+            ${rectCutOut._customCutoutClosed}
+            ${bottomPathAfterCutOut}
+        `;
+        rectCutOut._endPathOpen = `
+            ${bottomPathBeforeCutOut}
+            L ${xEnd} 0
+            ${rectCutOut._customCutoutOpen}
+            ${bottomPathAfterCutOut}
+        `;
+        rectCutOut._endPathClosed = `
+            ${bottomPathBeforeCutOut}
+            L ${xEnd} 0
+            ${rectCutOut._customCutoutClosed}
+            ${bottomPathAfterCutOut}
+        `;
     }
 
     return rectCutOut;
@@ -458,6 +569,7 @@ const initialize = function(
     rectCutOut._alignX = alignX;
     rectCutOut._alignY = alignY;
     rectCutOut._diameter = diameter;
+    rectCutOut._padding = paddingSize;
     rectCutOut._edgeDistance = paddingSize + diameter * 0.5;
     rectCutOut._roundedEdge = roundSize;
     rectCutOut._isCutoutShowing = show;
@@ -499,6 +611,8 @@ const MDSRectCutOut = svgjs.invent({
         _startPathClosed: '',
         _centerPathClosed: '',
         _endPathClosed: '',
+        _customCutoutOpen: '',
+        _customCutoutClosed: '',
         _isCutoutShowing: false,
         _updatePaths: function(): svgjs.MDSRectCutOut {
             return this;
@@ -587,29 +701,34 @@ const MDSRectCutOut = svgjs.invent({
                 showCutOut,
             );
         },
-        // customCutOut: function(
-        //     width: number,
-        //     height: number,
-        //     diameter: number,
-        //     alignX: svgjs.CutOutAlignX,
-        //     alignY: svgjs.CutOutAlignY,
-        //     padding?: number,
-        //     showCutOut?: boolean
-        // ): svgjs.MDSRectCutOut {
-        //     let rectCutOut: svgjs.MDSRectCutOut = this.put(new MDSRectCutOut);
+        customCutOut: function(
+            width: number,
+            height: number,
+            customCutOutOpen: string,
+            customCutOutClosed: string,
+            diameter: number,
+            alignX: svgjs.CutOutAlignX,
+            alignY: svgjs.CutOutAlignY,
+            padding?: number,
+            showCutOut?: boolean
+        ): svgjs.MDSRectCutOut {
+            let rectCutOut: svgjs.MDSRectCutOut = this.put(new MDSRectCutOut);
 
-        //     return initialize(
-        //         rectCutOut,
-        //         createTrianglePaths,
-        //         width,
-        //         height,
-        //         diameter,
-        //         alignX,
-        //         alignY,
-        //         padding,
-        //         0,
-        //         showCutOut,
-        //     );
-        // }
+            rectCutOut._customCutoutOpen = customCutOutOpen;
+            rectCutOut._customCutoutClosed = customCutOutClosed;
+
+            return initialize(
+                rectCutOut,
+                createCustomPaths,
+                width,
+                height,
+                diameter,
+                alignX,
+                alignY,
+                padding,
+                0,
+                showCutOut,
+            );
+        }
     }
 });
