@@ -1,6 +1,6 @@
 {
     "name": "material-shapes-svg",
-    "version": "1.0.7",
+    "version": "1.0.9-dev",
     "license": "MIT",
     "main": "./bundles/material-shapes-svg.js",
     "module": "./bundles/material-shapes-svg.js",

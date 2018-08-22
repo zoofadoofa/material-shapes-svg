@@ -548,7 +548,7 @@ const MDSRectCutOut = svgjs.invent({
             roundedEdge?: number,
             showCutOut?: boolean
         ): svgjs.MDSRectCutOut {
-            let rectCutOut: svgjs.MDSRectCutOut = this.put(new MDSRectCutOut);
+            const rectCutOut: svgjs.MDSRectCutOut = this.put(new MDSRectCutOut);
 
             return initialize(
                 rectCutOut,
@@ -572,7 +572,7 @@ const MDSRectCutOut = svgjs.invent({
             padding?: number,
             showCutOut?: boolean
         ): svgjs.MDSRectCutOut {
-            let rectCutOut: svgjs.MDSRectCutOut = this.put(new MDSRectCutOut);
+            const rectCutOut: svgjs.MDSRectCutOut = this.put(new MDSRectCutOut);
 
             return initialize(
                 rectCutOut,
