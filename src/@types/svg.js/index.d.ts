@@ -31,7 +31,7 @@ declare module "svg.js" {
         _alignX: CutOutAlignX;
         _alignY: CutOutAlignY;
         _edgeDistance: number,
-        _chamfer: number,
+        _roundedEdge: number,
         _diameter: number,
         _isCutoutShowing: boolean,
         _startPathOpen: string,
@@ -67,7 +67,7 @@ declare module "svg.js" {
             alignX: CutOutAlignX,
             alignY: CutOutAlignY,
             padding?: number,
-            rounded?: number,
+            roundedEdge?: number,
             showCutOut?: boolean
         ): MDSRectCutOut;
         triangleCutOut(
@@ -77,7 +77,6 @@ declare module "svg.js" {
             alignX: CutOutAlignX,
             alignY: CutOutAlignY,
             padding?: number,
-            rounded?: number,
             showCutOut?: boolean
         ): MDSRectCutOut;
     }

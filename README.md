@@ -262,8 +262,118 @@ div.onmouseup = () => {
 }
 ```
 
+### Rect Cut Out
+Creates cut outs for rectangles. Such as [Material App Bottom Bar](https://material.io/design/components/app-bars-bottom.html). See the Inset FAB under the anatomy section.
+![](https://storage.googleapis.com/spec-host-backup/mio-design%2Fassets%2F1xkb-3HQEAsb0IA292GLCziMMh6QE1YIX%2Fanatomy-fab-cut.png)
+
+**`svgjs.Shape.circleCutOut(`**
+**width**:
+number,<br/>
+**height**:
+number,<br/>
+**diameter**:
+number,<br/>
+**alignX**:
+svgjs.CutOutAlignX,<br/>
+**alignY**:
+svgjs.CutOutAlignY,<br/>
+**padding**:
+number,<br/>
+**roundedEdge**:
+number,<br/>
+**showCutOut**:
+boolean<br/>
+**`)`**:
+**svgjs.MDSRectCutOut**
+
+**`svgjs.Shape.triangleCutOut(`**
+**width**:
+number,<br/>
+**height**:
+number,<br/>
+**diameter**:
+number,<br/>
+**alignX**:
+svgjs.CutOutAlignX,<br/>
+**alignY**:
+svgjs.CutOutAlignY,<br/>
+**padding**:
+number,<br/>
+**showCutOut**:
+boolean<br/>
+**`)`**:
+**svgjs.MDSRectCutOut**
+
+**`svgjs.MDSRectCutOut.showCutOut(`**
+**alignX**:
+svgjs.CutOutAlignX
+**`)`**:
+**svgjs.MDSRectCutOut**
+
+**`svgjs.MDSRectCutOut.hideCutOut()`**:
+**svgjs.MDSRectCutOut**
+
+If you need to update the extents of the Rect use resize, such as parent container resized.
+
+**`svgjs.MDSRectCutOut.resize(`**
+**width**:
+number,<br/>
+**height**:
+number<br/>
+**`)`**:
+**svgjs.MDSRectCutOut**
+
+**`svgjs.MDSRectCutOut.CutOutAlignX`**: svgjs.CutOutAlignX ( **`'start'`** | **`'center'`** | **`'end'`** )
+
+**`svgjs.MDSRectCutOut.CutOutAlignY`**: svgjs.CutOutAlignX ( **`'top'`** | **`'bottom'`** )
+
+*`svgjs.MDSRectCutOut`* extends *`svgjs.Path`*
+
+```html
+<!-- HTML -->
+<div class="example-rect-cutout"></div>
+```
+```css
+/* CSS: for size example */
+.example-rect-cutout {
+    width: 100%;
+    height: 56px;
+}
+```
+
+```typescript
+import * as svgjs from 'svg.js';
+import 'material-shapes-svg';
+
+// Find example div
+const div: HTMLElement = document.querySelector('div.example-rect-cutout');
+const width: number = div.offsetWidth;
+const height: number = div.offsetHeight;
+const padding: number = 16;
+const roundedEdge: number = 4;
+const fabDiameter: number = 56 + 16; // fab plus cutout padding
+const cutOutAlignX = 'end';
+const cutOutAlignY = 'top';
+const showCutOut = true;
+
+// Create container
+const container: svgjs.Doc = svgjs(div).size(width, height);
+
+// Draw the rectangle with circular cutout
+const rectCutOut: svgjs.MDSRectCutOut = container.circleCutOut(
+    width,
+    height,
+    fabDiameter,
+    cutOutAlignX,
+    cutOutAlignY,
+    padding,
+    roundedEdge,
+    showCutOut
+);
+```
+
 ## RoadMap
-**`Rectangle With Cutout`** shape cutout on top or bottom with alignments for `start` | `start-keyline` | `center` | `end`.
+**`Rectangle With Custom Cutout`** supply relative path data for custom shape cutout.
 
 **`Custom Chamfer Shapes`** supply a shape to cutout of chamfered corners
 

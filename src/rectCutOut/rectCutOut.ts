@@ -130,15 +130,15 @@ const createCirclePaths = function (
             cutTopCircle(
                 rectCutOut._edgeDistance,
                 rectCutOut._diameter,
-                rectCutOut._chamfer,
-                rectCutOut._chamfer
+                rectCutOut._roundedEdge,
+                rectCutOut._roundedEdge
             )
         );
         rectCutOut._startPathClosed = insertTopCutOut(
             cutTopCircle(
                 rectCutOut._edgeDistance,
                 0,
-                rectCutOut._chamfer,
+                rectCutOut._roundedEdge,
                 0
             )
         );
@@ -146,15 +146,15 @@ const createCirclePaths = function (
             cutTopCircle(
                 halfWidth,
                 rectCutOut._diameter,
-                rectCutOut._chamfer,
-                rectCutOut._chamfer
+                rectCutOut._roundedEdge,
+                rectCutOut._roundedEdge
             )
         );
         rectCutOut._centerPathClosed = insertTopCutOut(
             cutTopCircle(
                 halfWidth,
                 0,
-                rectCutOut._chamfer,
+                rectCutOut._roundedEdge,
                 0
             )
         );
@@ -162,15 +162,15 @@ const createCirclePaths = function (
             cutTopCircle(
                 width - rectCutOut._edgeDistance,
                 rectCutOut._diameter,
-                rectCutOut._chamfer,
-                rectCutOut._chamfer
+                rectCutOut._roundedEdge,
+                rectCutOut._roundedEdge
             )
         );
         rectCutOut._endPathClosed = insertTopCutOut(
             cutTopCircle(
                 width - rectCutOut._edgeDistance,
                 0,
-                rectCutOut._chamfer,
+                rectCutOut._roundedEdge,
                 0
             )
         );
@@ -181,8 +181,8 @@ const createCirclePaths = function (
                 rectCutOut._edgeDistance,
                 height,
                 rectCutOut._diameter,
-                rectCutOut._chamfer,
-                rectCutOut._chamfer
+                rectCutOut._roundedEdge,
+                rectCutOut._roundedEdge
             )
         );
         rectCutOut._startPathClosed = insertBottomCutOut(
@@ -190,7 +190,7 @@ const createCirclePaths = function (
                 rectCutOut._edgeDistance,
                 height,
                 0,
-                rectCutOut._chamfer,
+                rectCutOut._roundedEdge,
                 0
             )
         )
@@ -199,8 +199,8 @@ const createCirclePaths = function (
                 halfWidth,
                 height,
                 rectCutOut._diameter,
-                rectCutOut._chamfer,
-                rectCutOut._chamfer
+                rectCutOut._roundedEdge,
+                rectCutOut._roundedEdge
             )
         );
         rectCutOut._centerPathClosed = insertBottomCutOut(
@@ -208,7 +208,7 @@ const createCirclePaths = function (
                 halfWidth,
                 height,
                 0,
-                rectCutOut._chamfer,
+                rectCutOut._roundedEdge,
                 0
             )
         )
@@ -217,8 +217,8 @@ const createCirclePaths = function (
                 width - rectCutOut._edgeDistance,
                 height,
                 rectCutOut._diameter,
-                rectCutOut._chamfer,
-                rectCutOut._chamfer
+                rectCutOut._roundedEdge,
+                rectCutOut._roundedEdge
             )
         );
         rectCutOut._endPathClosed = insertBottomCutOut(
@@ -226,7 +226,7 @@ const createCirclePaths = function (
                 width - rectCutOut._edgeDistance,
                 height,
                 0,
-                rectCutOut._chamfer,
+                rectCutOut._roundedEdge,
                 0
             )
         )
@@ -258,7 +258,7 @@ const createTrianglePaths = function(
         Z
     `;
 
-    const halfChamfer = rectCutOut._chamfer * 0.33;
+    const halfChamfer = rectCutOut._roundedEdge * 0.33;
 
     const insertTopCutOut = function (cutOutPath: string): string {
         return `${topPathBeforeCutOut} ${cutOutPath} ${topPathAfterCutOut}`;
@@ -448,18 +448,18 @@ const initialize = function(
     alignX: svgjs.CutOutAlignX,
     alignY: svgjs.CutOutAlignY,
     padding?: number,
-    chamfer?: number,
+    roundedEdge?: number,
     showCutOut?: boolean
 ): svgjs.MDSRectCutOut {
     const paddingSize = padding ? padding : 0;
-    const chamferSize = chamfer ? chamfer : 0;
+    const roundSize = roundedEdge ? roundedEdge : 0;
     const show = showCutOut ? showCutOut : false;
 
     rectCutOut._alignX = alignX;
     rectCutOut._alignY = alignY;
     rectCutOut._diameter = diameter;
     rectCutOut._edgeDistance = paddingSize + diameter * 0.5;
-    rectCutOut._chamfer = chamferSize;
+    rectCutOut._roundedEdge = roundSize;
     rectCutOut._isCutoutShowing = show;
     rectCutOut._updatePaths = updatePaths;
 
@@ -491,7 +491,7 @@ const MDSRectCutOut = svgjs.invent({
         _alignX: '',
         _alignY: '',
         _edgeDistance: 0,
-        _chamfer: 0,
+        _roundedEdge: 0,
         _diameter: 0,
         _startPathOpen: '',
         _centerPathOpen: '',
@@ -545,7 +545,7 @@ const MDSRectCutOut = svgjs.invent({
             alignX: svgjs.CutOutAlignX,
             alignY: svgjs.CutOutAlignY,
             padding?: number,
-            chamfer?: number,
+            roundedEdge?: number,
             showCutOut?: boolean
         ): svgjs.MDSRectCutOut {
             let rectCutOut: svgjs.MDSRectCutOut = this.put(new MDSRectCutOut);
@@ -559,7 +559,7 @@ const MDSRectCutOut = svgjs.invent({
                 alignX,
                 alignY,
                 padding,
-                chamfer,
+                roundedEdge,
                 showCutOut,
             );
         },
