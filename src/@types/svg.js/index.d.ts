@@ -66,7 +66,7 @@ declare module "svg.js" {
         circleCutOut(
             width: number,
             height: number,
-            diameter: number,
+            cutOutSize: number,
             alignX: CutOutAlignX,
             alignY: CutOutAlignY,
             padding?: number,
@@ -76,7 +76,7 @@ declare module "svg.js" {
         triangleCutOut(
             width: number,
             height: number,
-            diameter: number,
+            cutOutSize: number,
             alignX: CutOutAlignX,
             alignY: CutOutAlignY,
             padding?: number,
@@ -85,9 +85,9 @@ declare module "svg.js" {
         customCutOut(
             width: number,
             height: number,
+            cutOutSize: number,
             customCutoutOpen: string,
             customCutoutClosed: string,
-            diameter: number,
             alignX: CutOutAlignX,
             alignY: CutOutAlignY,
             padding?: number,

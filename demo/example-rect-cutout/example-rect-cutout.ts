@@ -26,16 +26,16 @@ export const exampleRectCutOut = function(element: HTMLElement): HTMLElement {
     const rectCutOut = svg.customCutOut(
         width,
         height,
+        80,
         openCutOut,
         closedCutOut,
-        80,
         'end',
         'top',
         24,
         true
     ).fill('#6200ee');
 
-    const elevation = rectCutOut.elevation(16);
+    // const elevation = rectCutOut.elevation(16);
 
     let alignment: svgjs.CutOutAlignX;
 

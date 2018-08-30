@@ -555,7 +555,7 @@ const initialize = function(
     updatePaths: any,
     width: number,
     height: number,
-    diameter: number,
+    cutOutSize: number,
     alignX: svgjs.CutOutAlignX,
     alignY: svgjs.CutOutAlignY,
     padding?: number,
@@ -568,9 +568,9 @@ const initialize = function(
 
     rectCutOut._alignX = alignX;
     rectCutOut._alignY = alignY;
-    rectCutOut._diameter = diameter;
+    rectCutOut._diameter = cutOutSize;
     rectCutOut._padding = paddingSize;
-    rectCutOut._edgeDistance = paddingSize + diameter * 0.5;
+    rectCutOut._edgeDistance = paddingSize + cutOutSize * 0.5;
     rectCutOut._roundedEdge = roundSize;
     rectCutOut._isCutoutShowing = show;
     rectCutOut._updatePaths = updatePaths;
@@ -655,7 +655,7 @@ const MDSRectCutOut = svgjs.invent({
         circleCutOut: function(
             width: number,
             height: number,
-            diameter: number,
+            cutOutSize: number,
             alignX: svgjs.CutOutAlignX,
             alignY: svgjs.CutOutAlignY,
             padding?: number,
@@ -669,7 +669,7 @@ const MDSRectCutOut = svgjs.invent({
                 createCirclePaths,
                 width,
                 height,
-                diameter,
+                cutOutSize,
                 alignX,
                 alignY,
                 padding,
@@ -680,7 +680,7 @@ const MDSRectCutOut = svgjs.invent({
         triangleCutOut: function(
             width: number,
             height: number,
-            diameter: number,
+            cutOutSize: number,
             alignX: svgjs.CutOutAlignX,
             alignY: svgjs.CutOutAlignY,
             padding?: number,
@@ -693,7 +693,7 @@ const MDSRectCutOut = svgjs.invent({
                 createTrianglePaths,
                 width,
                 height,
-                diameter,
+                cutOutSize,
                 alignX,
                 alignY,
                 padding,
@@ -704,9 +704,9 @@ const MDSRectCutOut = svgjs.invent({
         customCutOut: function(
             width: number,
             height: number,
+            cutOutSize: number,
             customCutOutOpen: string,
             customCutOutClosed: string,
-            diameter: number,
             alignX: svgjs.CutOutAlignX,
             alignY: svgjs.CutOutAlignY,
             padding?: number,
@@ -722,7 +722,7 @@ const MDSRectCutOut = svgjs.invent({
                 createCustomPaths,
                 width,
                 height,
-                diameter,
+                cutOutSize,
                 alignX,
                 alignY,
                 padding,

@@ -266,12 +266,12 @@ div.onmouseup = () => {
 Creates cut outs for rectangles. Such as [Material App Bottom Bar](https://material.io/design/components/app-bars-bottom.html). See the Inset FAB under the anatomy section.
 ![](https://storage.googleapis.com/spec-host-backup/mio-design%2Fassets%2F1xkb-3HQEAsb0IA292GLCziMMh6QE1YIX%2Fanatomy-fab-cut.png)
 
-**`svgjs.Shape.circleCutOut(`**
+**`svgjs.Shape.circleCutOut(`**<br/>
 **width**:
 number,<br/>
 **height**:
 number,<br/>
-**diameter**:
+**cutOutSize**:
 number,<br/>
 **alignX**:
 svgjs.CutOutAlignX,<br/>
@@ -286,13 +286,35 @@ boolean<br/>
 **`)`**:
 **svgjs.MDSRectCutOut**
 
-**`svgjs.Shape.triangleCutOut(`**
+**`svgjs.Shape.triangleCutOut(`**<br/>
 **width**:
 number,<br/>
 **height**:
 number,<br/>
-**diameter**:
+**cutOutSize**:
 number,<br/>
+**alignX**:
+svgjs.CutOutAlignX,<br/>
+**alignY**:
+svgjs.CutOutAlignY,<br/>
+**padding**:
+number,<br/>
+**showCutOut**:
+boolean<br/>
+**`)`**:
+**svgjs.MDSRectCutOut**
+
+**`svgjs.Shape.customCutOut(`**<br/>
+**width**:
+number, `// Width of rect`<br/>
+**height**:
+number, `// Height of rect`<br/>
+**cutOutSize**:
+number, `// Size of cutout`<br/>
+**customCutOutOpen**:
+string, `// Relative svg.path data`<br/>
+**customCutOutClosed**:
+string, `// Relative svg.path data`<br/>
 **alignX**:
 svgjs.CutOutAlignX,<br/>
 **alignY**:
@@ -370,6 +392,38 @@ const rectCutOut: svgjs.MDSRectCutOut = container.circleCutOut(
     roundedEdge,
     showCutOut
 );
+```
+
+For custom shapes use relative path data
+```typescript
+const cutOutSize = 80;
+
+const radius = `28 28`
+const concave = `0 0 0`
+
+const openCutOut = `
+a ${radius} ${concave} 14 21
+a ${radius} ${concave} 52 0
+a ${radius} ${concave} 14 -21
+l 0 0`;
+
+const closedCutOut = `
+a 23 0 ${concave} 0 0
+a 24 0 ${concave} 0 0
+a 23 0 ${concave} 0 0
+l 0 0`;
+
+const rectCutOut: svgjs.MDSRectCutOut = container.customCutOut(
+    width,
+    height,
+    cutOutSize,
+    openCutOut,
+    closedCutOut,
+    cutOutAlignX,
+    cutOutAlignY,
+    padding,
+    showCutOut
+)
 ```
 
 ## RoadMap
