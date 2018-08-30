@@ -2,6 +2,9 @@
 
 An implementation of [Material Design Shape](https://material.io/design/shape/about-shape.html) for the web extending [Svg.js](http://svgjs.com/) and [Svg.filter.js](https://github.com/svgdotjs/svg.filter.js)
 
+## Demo
+[SVG Button and Rectangle with CutOut](https://stackblitz.com/edit/material-shapes)
+
 ## Install
 
 ```bash
