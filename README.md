@@ -430,8 +430,9 @@ const rectCutOut: svgjs.MDSRectCutOut = container.customCutOut(
 ```
 
 ## RoadMap
-**`Rectangle With Custom Cutout`** supply relative path data for custom shape cutout.
 
 **`Custom Chamfer Shapes`** supply a shape to cutout of chamfered corners
 
-**`Demo Site`** for more interactive examples
+**`Rect CutOut`** refactor circle and triangle to use similar method to custom.
+
+**`Demo Site`** more examples
